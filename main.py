@@ -177,6 +177,20 @@ def homeScreen(title):
                      signinScreen('teste - oficial')])
   button_signout.place(width=112, height=45, x=1090, y=722)
 
+
+  button_signout = Button(
+    screen,
+    highlightthickness=0,
+    bd=1,
+    background='#749FE4',
+    image=signoutButton,
+    command=lambda: [
+      screen.destroy(),
+      signinScreen('teste - oficial')
+    ]
+  )
+  button_signout.place(width=112, height=45, x=1090, y=722)
+
   # connection = db_connection_start()
   # for event in events:
   #   print(f'{event[1]} | {event[2]}')
