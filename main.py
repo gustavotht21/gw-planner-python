@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from connection import *
 import sqlite3
 import time
@@ -11,10 +12,17 @@ def signinScreen(title):
     SQL_search_user = "SELECT * FROM usuarios"
     users = db_search_user(connection, SQL_search_user)
 
+    validado = False
     for user in users:
       if user[1] == input_email.get() and user[2] == int(input_password.get()):
         screen.destroy()
         homeScreen("Microsfot - Tarefas")
+        validado = True
+    if validado == False:
+      messagebox.showerror("ERRO", """Erro ao tentar fazer login. Considere:
+- Ver se as informações foram escritas corretamente;
+- Cadastrar-se caso não possua conta;
+- Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
 
     db_connection_close(connection)
 
