@@ -119,41 +119,30 @@ def signupScreen(title):
 
   background = PhotoImage(file='assets/signup.png')
   finalizeButton = PhotoImage(file='assets/finalizeButton.png')
+  backButton = PhotoImage(file='assets/BackButton.png')
 
   label = Label(screen, image=background)
   label.pack()
 
-  input_email = Entry(screen,
-                      highlightthickness=0,
-                      bd=0,
-                      font=('Inter', 8),
-                      justify=LEFT,
-                      foreground='#605672')
+  input_email = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_email.place(width=370, height=35, x=172, y=328)
 
-  input_email_again = Entry(screen,
-                            highlightthickness=0,
-                            bd=0,
-                            font=('Inter', 8),
-                            justify=LEFT,
-                            foreground='#605672')
+  input_email_again = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_email_again.place(width=370, height=35, x=172, y=393)
 
-  input_password = Entry(screen,
-                         highlightthickness=0,
-                         bd=0,
-                         font=('Inter', 8),
-                         justify=LEFT,
-                         foreground='#605672')
+  input_password = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_password.place(width=370, height=35, x=172, y=458)
 
-  button_signin = Button(screen,
-                         highlightthickness=0,
-                         bd=0,
-                         background='#4284F2',
-                         image=finalizeButton,
-                         command=verificationEmail)
+  button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=finalizeButton, command=verificationEmail)
   button_signin.place(width=225, height=40, x=172, y=538)
+
+  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda:
+  [
+      screen.destroy(),
+      signinScreen('Microsfot - Tela Inicial')
+  ])
+  button_back.place(width=131, height=45, x=415, y=537)
+
 
   screen.mainloop()
 
@@ -188,7 +177,7 @@ def homeScreen(title):
     background='#749FE4',
     image=signoutButton,
     command=lambda: [screen.destroy(),
-                     signinScreen('teste - oficial')])
+                     signinScreen('Microsfot - Tela Inicial')])
   button_signout.place(width=112, height=45, x=1090, y=722)
 
 
@@ -200,7 +189,7 @@ def homeScreen(title):
     image=signoutButton,
     command=lambda: [
       screen.destroy(),
-      signinScreen('teste - oficial')
+      signinScreen('Microsfot - Tela Inicial')
     ]
   )
   button_signout.place(width=112, height=45, x=1090, y=722)
@@ -385,4 +374,4 @@ def editScreen(title):
   screen.mainloop()
 
 
-signinScreen('teste - oficial')
+signinScreen('Microsfot - Tela Inicial')
