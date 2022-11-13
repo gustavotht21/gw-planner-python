@@ -30,9 +30,11 @@ def signinScreen(title):
   screen.title(title)
   screen.geometry('1280x800')
 
-  background = PhotoImage(file='assets/login.png')
-  signinButton = PhotoImage(file='assets/signinButton.png')
-  signupButton = PhotoImage(file='assets/signupButton.png')
+  background = PhotoImage(file='assets/backgrounds/login.png')
+  signinButton = PhotoImage(file='assets/components/signinButton.png')
+  signupButton = PhotoImage(file='assets/components/signupButton.png')
+  forgetButton = PhotoImage(file='assets/components/ButtonForgetPassword.png')
+
 
   label = Label(screen, image=background)
   label.pack()
@@ -46,12 +48,20 @@ def signinScreen(title):
   button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=signinButton, command=login)
   button_signin.place(width=135, height=40, x=171, y=529)
 
-  button_signup = Button( screen, highlightthickness=0, bd=0, background='white', image=signupButton, command=lambda:
+  button_signup = Button(screen, highlightthickness=0, bd=0, background='white', image=signupButton, command=lambda:
   [
       screen.destroy(),
       signupScreen('Microsfot - Cadastro')
   ])
   button_signup.place(width=194, height=45, x=325, y=527)
+
+  button_forget = Button(screen, highlightthickness=0, bd=0, background='white', image=forgetButton, command=lambda:
+  [
+    screen.destroy(),
+    editPassword("Microsfot - Redefinir senha")
+  ])
+  button_forget.place(width=146, height=17, x=401, y=495)
+
 
   screen.mainloop()
 
@@ -99,9 +109,9 @@ def signupScreen(title):
   screen.title(title)
   screen.geometry('1280x800')
 
-  background = PhotoImage(file='assets/signup.png')
-  finalizeButton = PhotoImage(file='assets/finalizeButton.png')
-  backButton = PhotoImage(file='assets/BackButton.png')
+  background = PhotoImage(file='assets/backgrounds/signup.png')
+  finalizeButton = PhotoImage(file='assets/components/finalizeButton.png')
+  backButton = PhotoImage(file='assets/components/BackButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -134,9 +144,9 @@ def homeScreen(title):
   screen.title(title)
   screen.geometry('1280x800')
 
-  background = PhotoImage(file='assets/homeplanner.png')
-  editButton = PhotoImage(file='assets/editButton.png')
-  signoutButton = PhotoImage(file='assets/signOutButton.png')
+  background = PhotoImage(file='assets/backgrounds/homeplanner.png')
+  editButton = PhotoImage(file='assets/components/editButton.png')
+  signoutButton = PhotoImage(file='assets/components/signOutButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -232,8 +242,8 @@ def editScreen(title):
   screen.title(title)
   screen.geometry('1280x800')
 
-  background = PhotoImage(file='assets/edit.png')
-  confirmButton = PhotoImage(file='assets/confirmButton.png')
+  background = PhotoImage(file='assets/backgrounds/edit.png')
+  confirmButton = PhotoImage(file='assets/components/confirmButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -299,5 +309,66 @@ def editScreen(title):
   #   indexDays += 1
   screen.mainloop()
 
+
+def editPassword(title):
+  def verificarEmail():
+    connection = db_connection_start()
+    SQL_search_user = "SELECT * FROM usuarios"
+    users = db_search_user(connection, SQL_search_user)
+
+    validado = False
+    for user in users:
+      if user[1] == input_email.get():
+        screen.destroy()
+        ScreenInsertCode("Microsfot - Insira o código")
+        validado = True
+    if validado == False:
+      messagebox.showerror("ERRO", """Ops... ocorreu um erro!
+O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
+
+    db_connection_close(connection)
+
+  screen = Tk()
+  screen.title(title)
+  screen.geometry('1280x800')
+
+  background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
+  restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
+  backButton = PhotoImage(file='assets/components/BackButton.png')
+
+
+  label = Label(screen, image=background)
+  label.pack()
+
+  input_email = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+  input_email.place(width=370, height=32, x=172, y=353)
+
+  button_restore = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=restoreButton, command=verificarEmail)
+  button_restore.place(width=223, height=45, x=170, y=552)
+
+
+  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda:
+  [
+      screen.destroy(),
+      signinScreen('Microsfot - Tela Inicial')
+  ])
+  button_back.place(width=131, height=45, x=415, y=552)
+
+
+
+  screen.mainloop()
+
+
+def ScreenInsertCode(title):
+  screen = Tk()
+  screen.title(title)
+  screen.geometry('1280x800')
+
+  background = PhotoImage(file='assets/backgrounds/ScreenInsertCode.png')
+
+  label = Label(screen, image=background)
+  label.pack()
+
+  screen.mainloop()
 
 signinScreen('Microsfot - Tela Inicial')
