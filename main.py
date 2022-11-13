@@ -37,38 +37,20 @@ def signinScreen(title):
   label = Label(screen, image=background)
   label.pack()
 
-  input_email = Entry(screen,
-                      highlightthickness=0,
-                      bd=0,
-                      font=('Inter', 8),
-                      justify=LEFT,
-                      foreground='#605672')
+  input_email = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_email.place(width=370, height=35, x=172, y=353)
 
-  input_password = Entry(screen,
-                         highlightthickness=0,
-                         bd=0,
-                         font=('Inter', 8),
-                         justify=LEFT,
-                         foreground='#605672')
+  input_password = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_password.place(width=370, height=35, x=172, y=450)
 
-  button_signin = Button(screen,
-                         highlightthickness=0,
-                         bd=0,
-                         background='#4284F2',
-                         image=signinButton,
-                         command=login)
+  button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=signinButton, command=login)
   button_signin.place(width=135, height=40, x=171, y=529)
 
-  button_signup = Button(
-    screen,
-    highlightthickness=0,
-    bd=0,
-    background='white',
-    image=signupButton,
-    command=lambda: [screen.destroy(),
-                     signupScreen('Microsfot - Cadastro')])
+  button_signup = Button( screen, highlightthickness=0, bd=0, background='white', image=signupButton, command=lambda:
+  [
+      screen.destroy(),
+      signupScreen('Microsfot - Cadastro')
+  ])
   button_signup.place(width=194, height=45, x=325, y=527)
 
   screen.mainloop()
@@ -159,35 +141,20 @@ def homeScreen(title):
   label = Label(screen, image=background)
   label.pack()
 
-  button_edit = Button(
-    screen,
-    highlightthickness=0,
-    bd=0,
-    background='#4284F2',
-    image=editButton,
-    command=lambda:
+  button_edit = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=editButton, command=lambda:
     [screen.destroy(),
      editScreen('Microsfot - Editar Tarefas')])
   button_edit.place(width=36.5, height=36.5, x=91, y=122)
 
-  button_signout = Button(
-    screen,
-    highlightthickness=0,
-    bd=1,
-    background='#749FE4',
-    image=signoutButton,
-    command=lambda: [screen.destroy(),
-                     signinScreen('Microsfot - Tela Inicial')])
+  button_signout = Button(screen, highlightthickness=0, bd=1, background='#749FE4', image=signoutButton, command=lambda:
+  [
+      screen.destroy(),
+      signinScreen('Microsfot - Tela Inicial')
+  ])
   button_signout.place(width=112, height=45, x=1090, y=722)
 
 
-  button_signout = Button(
-    screen,
-    highlightthickness=0,
-    bd=1,
-    background='#749FE4',
-    image=signoutButton,
-    command=lambda: [
+  button_signout = Button(screen, highlightthickness=0, bd=1, background='#749FE4', image=signoutButton, command=lambda: [
       screen.destroy(),
       signinScreen('Microsfot - Tela Inicial')
     ]
@@ -271,13 +238,7 @@ def editScreen(title):
   label = Label(screen, image=background)
   label.pack()
 
-  button_confirm = Button(
-    screen,
-    highlightthickness=0,
-    bd=0,
-    background='#4284F2',
-    image=confirmButton,
-    command=lambda:
+  button_confirm = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=confirmButton, command=lambda:
     [saveDatas(),
      screen.destroy(),
      homeScreen('Microsfot - Tarefas')])
@@ -297,78 +258,43 @@ def editScreen(title):
   # saturday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
   y = 233
   for index in range(12):
-    sunday[index] = Entry(screen,
-                          highlightthickness=0,
-                          bd=2,
-                          font=('Inter', 8),
-                          justify=LEFT,
-                          foreground='#605672')
+    sunday[index] = Entry(screen, highlightthickness=0, bd=2, font=('Inter', 8), justify=LEFT, foreground='#605672')
     sunday[index].place(width=98, height=23, x=153, y=y)
     y += 40
 
   # indexDays = 0
   # for y in range(233, 608, 33):
-  #   monday[indexDays] = Entry(screen,
-  #                             highlightthickness=0,
-  #                             bd=0,
-  #                             font=('Inter', 8),
-  #                             justify=LEFT,
-  #                             foreground='#605672')
+  #   monday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   #   monday[indexDays].place(width=98, height=23, x=299, y=y)
   #   indexDays += 1
 
   # indexDays = 0
   # for y in range(233, 608, 33):
-  #   tuesday[indexDays] = Entry(screen,
-  #                              highlightthickness=0,
-  #                              bd=0,
-  #                              font=('Inter', 8),
-  #                              justify=LEFT,
-  #                              foreground='#605672')
+  #   tuesday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   #   tuesday[indexDays].place(width=98, height=23, x=445, y=y)
   #   indexDays += 1
 
   # indexDays = 0
   # for y in range(233, 608, 33):
-  #   wednesday[indexDays] = Entry(screen,
-  #                                highlightthickness=0,
-  #                                bd=0,
-  #                                font=('Inter', 8),
-  #                                justify=LEFT,
-  #                                foreground='#605672')
+  #   wednesday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   #   wednesday[indexDays].place(width=98, height=23, x=591, y=y)
   #   indexDays += 1
 
   # indexDays = 0
   # for y in range(233, 608, 33):
-  #   thursday[indexDays] = Entry(screen,
-  #                               highlightthickness=0,
-  #                               bd=0,
-  #                               font=('Inter', 8),
-  #                               justify=LEFT,
-  #                               foreground='#605672')
+  #   thursday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   #   thursday[indexDays].place(width=98, height=23, x=737, y=y)
   #   indexDays += 1
 
   # indexDays = 0
   # for y in range(233, 608, 33):
-  #   friday[indexDays] = Entry(screen,
-  #                             highlightthickness=0,
-  #                             bd=0,
-  #                             font=('Inter', 8),
-  #                             justify=LEFT,
-  #                             foreground='#605672')
+  #   friday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   #   friday[indexDays].place(width=98, height=23, x=883, y=y)
   #   indexDays += 1
 
   # indexDays = 0
   # for y in range(233, 608, 33):
-  #   saturday[indexDays] = Entry(screen,
-  #                               highlightthickness=0,
-  #                               bd=0,
-  #                               font=('Inter', 8),
-  #                               justify=LEFT,
-  #                               foreground='#605672')
+  #   saturday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   #   saturday[indexDays].place(width=98, height=23, x=1029, y=y)
   #   indexDays += 1
   screen.mainloop()
