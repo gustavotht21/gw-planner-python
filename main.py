@@ -1,6 +1,9 @@
+import random
 from tkinter import *
 from tkinter import messagebox
 from connection import *
+import smtplib
+import email.message
 import sqlite3
 import time
 
@@ -76,34 +79,34 @@ def signupScreen(title):
 
     first_input = input_email.get()
     second_input = input_email_again.get()
-    if '@' in first_input.split():
-        if first_input.split('@')[1] in emails_extensios:
-            if first_input == second_input:
-                connection = db_connection_start()
-                SQL_create_table = """
-                CREATE TABLE IF NOT EXISTS usuarios (
-                  id integer PRMARY KEY IDENTITY(1, 1),
-                  email text NOT NULL,
-                  senha integer NOT NULL
-                ); """
-                db_table_create(connection, SQL_create_table)
+    # if '@' in first_input.split():
+    if first_input.split('@')[1] in emails_extensios:
+        if first_input == second_input:
+            connection = db_connection_start()
+            SQL_create_table = """
+            CREATE TABLE IF NOT EXISTS usuarios (
+              id integer PRMARY KEY IDENTITY(1, 1),
+              email text NOT NULL,
+              senha integer NOT NULL
+            ); """
+            db_table_create(connection, SQL_create_table)
 
-                SQL_insert_user = (
-                  f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}",{input_password.get()})'
-                )
-                db_user_insert(connection, SQL_insert_user)
+            SQL_insert_user = (
+              f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}",{input_password.get()})'
+            )
+            db_user_insert(connection, SQL_insert_user)
 
-                db_connection_close(connection)
+            db_connection_close(connection)
 
-                time.sleep(0.5)
-                screen.destroy(),
-                signinScreen('Microsfot - Login')
-            else:
-                messagebox.showerror("ERRO", """Os emails devem ser iguais""")
+            time.sleep(0.5)
+            screen.destroy(),
+            signinScreen('Microsfot - Login')
         else:
-            messagebox.showerror("ERRO", """Insira um email válido""")
+            messagebox.showerror("ERRO", """Os emails devem ser iguais""")
     else:
-        messagebox.showerror("ERRO", """Insira um email válido""")
+        messagebox.showerror("ERRO", """Insira um email válido. Terminação inexistente""")
+    # else:
+    #     messagebox.showerror("ERRO", """Insira um email válido. Sem @""")
 
   screen = Tk()
   screen.title(title)
@@ -311,6 +314,25 @@ def editScreen(title):
 
 
 def editPassword(title):
+  def enviarEmail(emailPessoa):
+    global code
+    code = random.randint(1111, 9999)
+    corpoEmail = """
+        <p>Olá! O seu código de verificação é: {}</p>
+        """.format(code)
+
+    msg = email.message.Message()
+    msg['Subjecy'] = "Código para recuperação de senha"
+    msg['From'] = "suporteplanner321@gmail.com"
+    msg['To'] = "{}".format(emailPessoa)
+    password = "okuvnwqnrqkcpbmq"
+    msg.add_header('Content-Type', 'text/html')
+    msg.set_payload(corpoEmail)
+    s = smtplib.SMTP('smtp.gmail.com: 587')
+    s.starttls()
+
+    s.login(msg['From'], password)
+    s.sendmail(msg['From'], msg['To'], msg.as_string().encode('utf-8'))
   def verificarEmail():
     connection = db_connection_start()
     SQL_search_user = "SELECT * FROM usuarios"
@@ -319,6 +341,9 @@ def editPassword(title):
     validado = False
     for user in users:
       if user[1] == input_email.get():
+        enviarEmail(input_email.get())
+        global emailParaRedefinicao
+        emailParaRedefinicao = str(input_email.get())
         screen.destroy()
         ScreenInsertCode("Microsfot - Insira o código")
         validado = True
@@ -360,15 +385,85 @@ O email inserido não existe na plataforma. Verifique se a email foi escrito cor
 
 
 def ScreenInsertCode(title):
+  def verificaCodigo():
+    if input_code.get() == str(code):
+      screen.destroy()
+      ScreenNewPassword("Microsfot - Inserindo a nova senha")
+    else:
+      messagebox.showerror("ERRO", """Código inválido""")
+
+
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
 
   background = PhotoImage(file='assets/backgrounds/ScreenInsertCode.png')
+  resetButton = PhotoImage(file='assets/components/ButtonReset.png')
+  backButton = PhotoImage(file='assets/components/BackButton.png')
 
   label = Label(screen, image=background)
   label.pack()
 
+  input_code = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+  input_code.place(width=370, height=32, x=172, y=433)
+
+
+  button_reset = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=resetButton, command=verificaCodigo)
+  button_reset.place(width=220, height=45, x=170, y=522)
+
+  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda:
+  [
+    screen.destroy(),
+    signinScreen('Microsfot - Tela Inicial')
+  ])
+  button_back.place(width=131, height=45, x=413, y=522)
+
   screen.mainloop()
 
+
+def ScreenNewPassword(title):
+  def verificaSenhas():
+    if input_NewPassword.get() == input_NewPasswordAgain.get():
+      connection = db_connection_start()
+      SQL_reset_password = (
+        f"""
+        UPDATE usuarios
+        SET senha = {input_NewPassword.get()}
+        WHERE email = "{emailParaRedefinicao}";      
+        """
+      )
+      db_reset_password(connection, SQL_reset_password)
+      db_connection_close(connection)
+
+      messagebox.showinfo("SUCESSO", """Senha redefinida com sucesso""")
+      screen.destroy()
+      signinScreen('Microsfot - Tela Inicial')
+    else:
+      messagebox.showerror("ERRO", """As senhas não coincidem""")
+
+
+  screen = Tk()
+  screen.title(title)
+  screen.geometry('1280x800')
+
+  background = PhotoImage(file='assets/backgrounds/ScreenNewPassword.png')
+  concludeButton = PhotoImage(file='assets/components/ButtonConclude.png')
+
+  label = Label(screen, image=background)
+  label.pack()
+
+
+  input_NewPassword = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+  input_NewPassword.place(width=370, height=32, x=172, y=340)
+
+  input_NewPasswordAgain = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+  input_NewPasswordAgain.place(width=370, height=32, x=172, y=433)
+
+
+
+  button_conclude = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=concludeButton, command=verificaSenhas)
+  button_conclude.place(width=220, height=45, x=170, y=522)
+
+
+  label.mainloop()
 signinScreen('Microsfot - Tela Inicial')

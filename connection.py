@@ -31,8 +31,6 @@ def db_table_clear(connection, SQL_clear_table):
     print('[DADOS REMOVIDOS]')
   except sqlite3.Error as e:
     print('[ERRO AO LIMPAR TABELA]', e)
-    
-
 
 def db_user_insert(connection, SQL_insert_user):
   try:
@@ -54,6 +52,16 @@ def db_search_user(connection, SQL_search_user):
     print('[ERRO AO BUSCAR:] ', e)
   finally:
     return user
+
+def db_reset_password(connection, SQL_reset_password):
+  try:
+    cursor = connection.cursor()
+    cursor.execute(SQL_reset_password)
+    connection.commit()
+    print('[SENHA ALTERADA COM SUCESSO]')
+  except sqlite3.Error as e:
+    print('[ERRO AO ALTERAR SENHA]', e)
+
 
 def db_search_events(connection, SQL_search_events):
   try:
