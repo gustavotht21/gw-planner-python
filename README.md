@@ -1,10 +1,10 @@
 # [PLANNER - PROJETO INTEGRADOR] 
 
 <p align="center">
-  <img alt="Imagem da tela inicial do projeto" src="./assets/login.png" width="100%">
+  <img alt="Imagem da tela inicial do projeto" src="./assets/backgrounds/login.png" width="100%">
 </p>
 <p align="center">
-  <img alt="Imagem da tela de tarefas do projeto" src="./assets/homeplanner.png" width="100%">
+  <img alt="Imagem da tela de tarefas do projeto" src="./assets/backgrounds/homeplanner.png" width="100%">
 </p>
 
 ## Índice
