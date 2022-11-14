@@ -18,20 +18,28 @@ def signinScreen(title):
     connection = db_connection_start()
     SQL_search_user = "SELECT * FROM usuarios"
     users = db_search_user(connection, SQL_search_user)
-
+    print("===============LISTA USERS INTEIRA===============")
+    print(users)
     validado = False
     for user in users:
-      if not userObjects:
-        nameNewObjectUser = f'User{user[0]}'
-        nameNewObjectUser = Usuario(user[0], user[1], user[2])
-        userObjects.append(nameNewObjectUser)
       if user[1] == input_email.get() and user[2] == input_password.get():
-          userObjects[user[0]-1].realizarLogin(user[1], user[2])
-          screen.destroy()
-          homeScreen("Microsfot - Tarefas")
-          validado = True
-      if validado == False:
-        messagebox.showerror("ERRO", """Erro ao tentar fazer login. Considere:
+        if not userObjects or len(userObjects) < len(users):
+          nameNewObjectUser = f'User{user[0]}'
+          print("===============DADOS ADICIONADOS AO OBJETO===============")
+          print(f"user[1]: {user[1]}")
+          print(f"user[2]: {user[2]}")
+          nameNewObjectUser = Usuario(user[0], user[1], user[2])
+          userObjects.append(nameNewObjectUser)
+          print("Objeto adicionado")
+        validado = True
+        print("===============VERIFICAÇÃO DENTRO DO IF LOGIN===============")
+        print(f"user1 = {user[1]} user2 = {user[2]}")
+        userObjects[user[0]-1].getUserInformations()
+        userObjects[user[0]-1].realizarLogin(user[1], user[2])
+        screen.destroy()
+        homeScreen("Microsfot - Tarefas")
+    if validado == False:
+      messagebox.showerror("ERRO", """Erro ao tentar fazer login. Considere:
 - Ver se as informações foram escritas corretamente;
 - Cadastrar-se caso não possua conta;
 - Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
