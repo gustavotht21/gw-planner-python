@@ -9,6 +9,8 @@ import email.message
 import sqlite3
 import time
 
+global userObjects
+userObjects = []
 
 def signinScreen(title):
 
@@ -19,12 +21,17 @@ def signinScreen(title):
 
     validado = False
     for user in users:
-      if user[1] == input_email.get() and user[2] == int(input_password.get()):
-        screen.destroy()
-        homeScreen("Microsfot - Tarefas")
-        validado = True
-    if validado == False:
-      messagebox.showerror("ERRO", """Erro ao tentar fazer login. Considere:
+      if not userObjects:
+        nameNewObjectUser = f'User{user[0]}'
+        nameNewObjectUser = Usuario(user[0], user[1], user[2])
+        userObjects.append(nameNewObjectUser)
+      if user[1] == input_email.get() and user[2] == input_password.get():
+          userObjects[user[0]-1].realizarLogin(user[1], user[2])
+          screen.destroy()
+          homeScreen("Microsfot - Tarefas")
+          validado = True
+      if validado == False:
+        messagebox.showerror("ERRO", """Erro ao tentar fazer login. Considere:
 - Ver se as informações foram escritas corretamente;
 - Cadastrar-se caso não possua conta;
 - Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
@@ -89,67 +96,59 @@ def signupScreen(title):
     first_input = input_email.get()
     second_input = input_email_again.get()
     password = input_password.get()
-    global userObjects
-    userObjects = []
     senhaForte = False
 
     if '@' in list(first_input):
       if first_input.split('@')[1] in emails_extensios:
-          if first_input == second_input:
-            if len(password) >= 8:
-              if password.upper() != password and password.lower() != password:
-                for simbol in simbols:
-                  if simbol in list(password):
-                    senhaForte = True
-                    connection = db_connection_start()
-                    SQL_create_table = """
-                    CREATE TABLE IF NOT EXISTS usuarios (                  
-                    idUser integer PRIMARY KEY AUTOINCREMENT,
-                    email text NOT NULL,
-                    senha integer NOT NULL
-                    ); """
-                    db_table_create(connection, SQL_create_table)
+        if first_input == second_input:
+          if len(password) >= 8:
+            if password.upper() != password and password.lower() != password:
+              for simbol in simbols:
+                if simbol in list(password):
+                  senhaForte = True
+                  connection = db_connection_start()
+                  SQL_create_table = """
+                  CREATE TABLE IF NOT EXISTS usuarios (                  
+                  idUser integer PRIMARY KEY AUTOINCREMENT,
+                  email text NOT NULL,
+                  senha text NOT NULL
+                  ); """
+                  db_table_create(connection, SQL_create_table)
 
-                    SQL_insert_user = (
-                      f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")'
-                    )
-                    db_user_insert(connection, SQL_insert_user)
+                  SQL_insert_user = (
+                    f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")'
+                  )
+                  db_user_insert(connection, SQL_insert_user)
 
-                    SQL_search_user = """
-                    SELECT idUser FROM usuarios
-                    ORDER BY idUser DESC
-                    LIMIT 1;
-                    """
-                    Users = db_search_user(connection, SQL_search_user)
-                    for user in Users:
-                      lastUserId = user[0]
+                  SQL_search_user = """SELECT idUser FROM usuarios
+                  ORDER BY idUser DESC
+                  LIMIT 1;"""
+                  user = db_search_user(connection, SQL_search_user)
 
-                    if lastUserId == None:
-                      lastUserId = 0
-                    nameNewObjectUser = f'User{lastUserId}'
-                    nameNewObjectUser = Usuario(first_input, password)
+                  lastUserId = user[0]
+                  if lastUserId == None:
+                    lastUserId = 0
+                  nameNewObjectUser = f'User{lastUserId}'
+                  nameNewObjectUser = Usuario(lastUserId, first_input, password)
 
-                    userObjects.append(nameNewObjectUser)
+                  userObjects.append(nameNewObjectUser)
 
+                  db_connection_close(connection)
 
+                  messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
-
-                    db_connection_close(connection)
-
-                    messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
-
-                    time.sleep(0.5)
-                    screen.destroy(),
-                    signinScreen('Microsfot - Login')
-                if senhaForte != True:
-                  messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
-                  (Ex: @, #, % etc.)""")
-              else:
-                messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+                  time.sleep(0.5)
+                  screen.destroy(),
+                  signinScreen('Microsfot - Login')
+              if senhaForte != True:
+                messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
+                (Ex: @, #, % etc.)""")
             else:
-              messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
+              messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
           else:
-              messagebox.showerror("ERRO", """Os emails devem ser iguais""")
+            messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
+        else:
+            messagebox.showerror("ERRO", """Os emails devem ser iguais""")
       else:
           messagebox.showerror("ERRO", """Insira um email válido.""")
     else:
