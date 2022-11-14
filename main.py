@@ -468,21 +468,40 @@ def ScreenInsertCode(title):
 
 def ScreenNewPassword(title):
   def verificaSenhas():
-    if input_NewPassword.get() == input_NewPasswordAgain.get():
-      connection = db_connection_start()
-      SQL_reset_password = (
-        f"""
-        UPDATE usuarios
-        SET senha = "{input_NewPassword.get()}"
-        WHERE email = "{emailParaRedefinicao}";      
-        """
-      )
-      db_reset_password(connection, SQL_reset_password)
-      db_connection_close(connection)
 
-      messagebox.showinfo("SUCESSO", """Senha redefinida com sucesso""")
-      screen.destroy()
-      signinScreen('Microsfot - Tela Inicial')
+    simbols = [
+      '@', '#', '$', '%', '&',
+    ]
+    password = input_NewPassword
+    senhaForte = False
+
+    if input_NewPassword.get() == input_NewPasswordAgain.get():
+      if len(password) >= 8:
+        if password.upper() != password and password.lower() != password:
+          for simbol in simbols:
+            if simbol in list(password):
+              senhaForte = True
+              connection = db_connection_start()
+              SQL_reset_password = (
+                f"""
+                UPDATE usuarios
+                SET senha = "{input_NewPassword.get()}"
+                WHERE email = "{emailParaRedefinicao}";      
+                """
+              )
+              db_reset_password(connection, SQL_reset_password)
+              db_connection_close(connection)
+
+              messagebox.showinfo("SUCESSO", """Senha redefinida com sucesso""")
+              screen.destroy()
+              signinScreen('Microsfot - Tela Inicial')
+          if senhaForte != True:
+            messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
+            (Ex: @, #, % etc.)""")
+        else:
+          messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+      else:
+        messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
     else:
       messagebox.showerror("ERRO", """As senhas não coincidem""")
 
