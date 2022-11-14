@@ -18,22 +18,14 @@ def signinScreen(title):
     connection = db_connection_start()
     SQL_search_user = "SELECT * FROM usuarios"
     users = db_search_user(connection, SQL_search_user)
-    print("===============LISTA USERS INTEIRA===============")
-    print(users)
     validado = False
     for user in users:
       if user[1] == input_email.get() and user[2] == input_password.get():
         if not userObjects or len(userObjects) < len(users):
           nameNewObjectUser = f'User{user[0]}'
-          print("===============DADOS ADICIONADOS AO OBJETO===============")
-          print(f"user[1]: {user[1]}")
-          print(f"user[2]: {user[2]}")
           nameNewObjectUser = Usuario(user[0], user[1], user[2])
           userObjects.append(nameNewObjectUser)
-          print("Objeto adicionado")
         validado = True
-        print("===============VERIFICAÇÃO DENTRO DO IF LOGIN===============")
-        print(f"user1 = {user[1]} user2 = {user[2]}")
         userObjects[user[0]-1].getUserInformations()
         userObjects[user[0]-1].realizarLogin(user[1], user[2])
         screen.destroy()
