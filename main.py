@@ -76,31 +76,50 @@ def signupScreen(title):
       'ifro.edu.br', 'estudante.ifro.edu.br', 'gmail.com', 'hotmail.com',
       'yahoo.com'
     ]
+    simbols = [
+      '@', '#', '$', '%', '&',
+    ]
 
     first_input = input_email.get()
     second_input = input_email_again.get()
+    password = input_password.get()
+    senhaForte = False
+
     if '@' in list(first_input):
       if first_input.split('@')[1] in emails_extensios:
           if first_input == second_input:
-              connection = db_connection_start()
-              SQL_create_table = """
-              CREATE TABLE IF NOT EXISTS usuarios (
-                id integer PRMARY KEY IDENTITY(1, 1),
-                email text NOT NULL,
-                senha integer NOT NULL
-              ); """
-              db_table_create(connection, SQL_create_table)
+            if len(password) >= 8:
+              if password.upper() != password and password.lower() != password:
+                for simbol in simbols:
+                  if simbol in list(password):
+                    senhaForte = True
+                    connection = db_connection_start()
+                    SQL_create_table = """
+                    CREATE TABLE IF NOT EXISTS usuarios (
+                      id integer PRMARY KEY IDENTITY(1, 1),
+                      email text NOT NULL,
+                      senha integer NOT NULL
+                    ); """
+                    db_table_create(connection, SQL_create_table)
 
-              SQL_insert_user = (
-                f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}",{input_password.get()})'
-              )
-              db_user_insert(connection, SQL_insert_user)
+                    SQL_insert_user = (
+                      f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}",{input_password.get()})'
+                    )
+                    db_user_insert(connection, SQL_insert_user)
 
-              db_connection_close(connection)
+                    db_connection_close(connection)
+                    messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
-              time.sleep(0.5)
-              screen.destroy(),
-              signinScreen('Microsfot - Login')
+                    time.sleep(0.5)
+                    screen.destroy(),
+                    signinScreen('Microsfot - Login')
+                if senhaForte != True:
+                  messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
+                  (Ex: @, #, % etc.)""")
+              else:
+                messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+            else:
+              messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
           else:
               messagebox.showerror("ERRO", """Os emails devem ser iguais""")
       else:
