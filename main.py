@@ -35,6 +35,8 @@ def signinScreen(title):
 - Ver se as informações foram escritas corretamente;
 - Cadastrar-se caso não possua conta;
 - Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
+      input_email.delete(0, END)
+      input_password.delete(0, END)
 
     db_connection_close(connection)
 
@@ -148,11 +150,15 @@ def signupScreen(title):
           else:
             messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
         else:
-            messagebox.showerror("ERRO", """Os emails devem ser iguais""")
+          messagebox.showerror("ERRO", """Os emails devem ser iguais""")
       else:
-          messagebox.showerror("ERRO", """Insira um email válido.""")
+        messagebox.showerror("ERRO", """Insira um email válido.""")
+        input_email.delete(0, END)
+        input_email_again.delete(0, END)
     else:
       messagebox.showerror("ERRO", """Insira um email válido.""")
+      input_email.delete(0, END)
+      input_email_again.delete(0, END)
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
