@@ -1,6 +1,8 @@
 import random
 from tkinter import *
 from tkinter import messagebox
+
+from classes import Usuario
 from connection import *
 import smtplib
 import email.message
@@ -28,6 +30,10 @@ def signinScreen(title):
 - Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
 
     db_connection_close(connection)
+
+
+
+
 
   screen = Tk()
   screen.title(title)
@@ -83,6 +89,8 @@ def signupScreen(title):
     first_input = input_email.get()
     second_input = input_email_again.get()
     password = input_password.get()
+    global userObjects
+    userObjects = []
     senhaForte = False
 
     if '@' in list(first_input):
@@ -95,19 +103,39 @@ def signupScreen(title):
                     senhaForte = True
                     connection = db_connection_start()
                     SQL_create_table = """
-                    CREATE TABLE IF NOT EXISTS usuarios (
-                      id integer PRMARY KEY IDENTITY(1, 1),
-                      email text NOT NULL,
-                      senha integer NOT NULL
+                    CREATE TABLE IF NOT EXISTS usuarios (                  
+                    idUser integer PRIMARY KEY AUTOINCREMENT,
+                    email text NOT NULL,
+                    senha integer NOT NULL
                     ); """
                     db_table_create(connection, SQL_create_table)
 
                     SQL_insert_user = (
-                      f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}",{input_password.get()})'
+                      f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")'
                     )
                     db_user_insert(connection, SQL_insert_user)
 
+                    SQL_search_user = """
+                    SELECT idUser FROM usuarios
+                    ORDER BY idUser DESC
+                    LIMIT 1;
+                    """
+                    Users = db_search_user(connection, SQL_search_user)
+                    for user in Users:
+                      lastUserId = user[0]
+
+                    if lastUserId == None:
+                      lastUserId = 0
+                    nameNewObjectUser = f'User{lastUserId}'
+                    nameNewObjectUser = Usuario(first_input, password)
+
+                    userObjects.append(nameNewObjectUser)
+
+
+
+
                     db_connection_close(connection)
+
                     messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
                     time.sleep(0.5)
@@ -446,7 +474,7 @@ def ScreenNewPassword(title):
       SQL_reset_password = (
         f"""
         UPDATE usuarios
-        SET senha = {input_NewPassword.get()}
+        SET senha = "{input_NewPassword.get()}"
         WHERE email = "{emailParaRedefinicao}";      
         """
       )
