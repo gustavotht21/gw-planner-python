@@ -424,9 +424,7 @@ def editPassword(title):
         ScreenInsertCode("Microsfot - Insira o código")
         validado = True
     if validado == False:
-      messagebox.showerror("ERRO", """Ops... ocorreu um erro!
-O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
-
+      messagebox.showerror("ERRO", """Ops... ocorreu um erro! O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
     db_connection_close(connection)
 
   screen = Tk()
@@ -436,7 +434,6 @@ O email inserido não existe na plataforma. Verifique se a email foi escrito cor
   background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
   restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
   backButton = PhotoImage(file='assets/components/BackButton.png')
-
 
   label = Label(screen, image=background)
   label.pack()
@@ -448,12 +445,11 @@ O email inserido não existe na plataforma. Verifique se a email foi escrito cor
   button_restore.place(width=223, height=45, x=170, y=552)
 
 
-  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda:
-  [
-      screen.destroy(),
-      signinScreen('Microsfot - Tela Inicial')
+  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda: [
+    screen.destroy(),
+    signinScreen('Microsfot - Tela Inicial')
   ])
-  button_back.place(width=131, height=45, x=415, y=552)
+  button_back.place(width=130, height=45, x=414, y=553)
 
 
 
