@@ -234,7 +234,6 @@ def homeScreen(title):
 
 
 def editScreen(title):
-
   def saveDatas():
     connection = db_connection_start()
     SQL_table_clear = """
@@ -252,10 +251,10 @@ def editScreen(title):
 
     for index in range(12):
       print(sunday[index].get())
-      # SQL_insert_user = (
-      #   f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{valoresSunday[row]}", "sunday")'
-      # )
-      # db_user_insert(connection, SQL_insert_user)
+      SQL_insert_user = (
+        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{valoresSunday[row]}", "sunday")'
+      )
+      db_user_insert(connection, SQL_insert_user)
 
       # SQL_insert_user = (
       #   f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{str(monday[row])}", "monday")'
@@ -309,11 +308,7 @@ def editScreen(title):
   button_confirm.place(width=36.5, height=36.5, x=91, y=122)
 
   # sunday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  sunday = [
-    'sunday1', 'sunday2', 'sunday3', 'sunday4', 'sunday5'
-    'sunday6', 'sunday7', 'sunday8', 'sunday9', 'sunday10', 'sunday11',
-    'sunday12', 'sunday13', 'sunday14'
-  ]
+  sunday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
   # monday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
   # tuesday =  ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
   # wednesday =['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
@@ -322,9 +317,9 @@ def editScreen(title):
   # saturday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
   y = 233
   for index in range(12):
-    sunday[index] = Entry(screen, highlightthickness=0, bd=2, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    sunday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     sunday[index].place(width=98, height=23, x=153, y=y)
-    y += 40
+    y += 33
 
   # indexDays = 0
   # for y in range(233, 608, 33):
