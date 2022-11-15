@@ -13,7 +13,6 @@ global userObjects
 userObjects = []
 
 def signinScreen(title):
-
   def login():
     connection = db_connection_start()
     SQL_search_user = "SELECT * FROM usuarios"
@@ -32,17 +31,13 @@ def signinScreen(title):
         homeScreen("Microsfot - Tarefas")
     if validado == False:
       messagebox.showerror("ERRO", """Erro ao tentar fazer login. Considere:
-- Ver se as informações foram escritas corretamente;
-- Cadastrar-se caso não possua conta;
-- Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
+      - Ver se as informações foram escritas corretamente;
+      - Cadastrar-se caso não possua conta;
+      - Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
       input_email.delete(0, END)
       input_password.delete(0, END)
 
     db_connection_close(connection)
-
-
-
-
 
   screen = Tk()
   screen.title(title)
@@ -135,10 +130,53 @@ def signupScreen(title):
 
                   userObjects.append(nameNewObjectUser)
 
-                  db_connection_close(connection)
-
                   messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
+                  SQL_create_table = """   
+                          CREATE TABLE IF NOT EXISTS eventos (                  
+                            id integer PRIMARY KEY AUTOINCREMENT,
+                            titulo text NOT NULL,
+                            diaSemana text NOT NULL
+                          ); """
+                  db_table_create(connection, SQL_create_table)
+
+                  for row in range(12):
+                      SQL_insert_user = (
+                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sunday")'
+                      )
+                      db_user_insert(connection, SQL_insert_user)
+
+                      SQL_insert_user = (
+                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "monday")'
+                      )
+                      db_user_insert(connection, SQL_insert_user)
+
+                      SQL_insert_user = (
+                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "tuesday")'
+                      )
+                      db_user_insert(connection, SQL_insert_user)
+
+                      SQL_insert_user = (
+                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "wednesday")'
+                      )
+                      db_user_insert(connection, SQL_insert_user)
+
+                      SQL_insert_user = (
+                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "thursday")'
+                      )
+                      db_user_insert(connection, SQL_insert_user)
+
+                      SQL_insert_user = (
+                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "friday")'
+                      )
+                      db_user_insert(connection, SQL_insert_user)
+
+                      SQL_insert_user = (
+                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sartuday")'
+                      )
+                      db_user_insert(connection, SQL_insert_user)
+
+                  db_connection_close(connection)
                   time.sleep(0.5)
                   screen.destroy(),
                   signinScreen('Microsfot - Login')
@@ -236,10 +274,6 @@ def homeScreen(title):
 def editScreen(title):
   def saveDatas():
     connection = db_connection_start()
-    SQL_table_clear = """
-          DELETE FROM eventos;
-            """
-    db_table_clear(connection, SQL_table_clear)
 
     SQL_create_table = """   
           CREATE TABLE IF NOT EXISTS eventos (                  
@@ -251,41 +285,41 @@ def editScreen(title):
 
     for row in range(12):
       SQL_insert_user = (
-        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{sunday[row].get()}", "sunday")'
+        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday" WHERE id = {row}'
       )
       db_user_insert(connection, SQL_insert_user)
 
       SQL_insert_user = (
-        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{monday[row].get()}", "monday")'
+        f'UPDATE eventos SET titulo = "{monday[row].get()}", diaSemana = "monday" WHERE id = {row}'
       )
       db_user_insert(connection, SQL_insert_user)
 
       SQL_insert_user = (
-        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{tuesday[row].get()}", "tuesday")'
+        f'UPDATE eventos SET titulo = "{tuesday[row].get()}", diaSemana = "tuesday" WHERE id = {row}'
       )
       db_user_insert(connection, SQL_insert_user)
 
       SQL_insert_user = (
-        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{wednesday[row].get()}", "wednesday")'
+        f'UPDATE eventos SET titulo = "{wednesday[row].get()}", diaSemana = "wednesday" WHERE id = {row}'
       )
       db_user_insert(connection, SQL_insert_user)
 
       SQL_insert_user = (
-        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{thursday[row].get()}", "thursday")'
+        f'UPDATE eventos SET titulo = "{thursday[row].get()}", diaSemana = "thursday" WHERE id = {row}'
       )
       db_user_insert(connection, SQL_insert_user)
 
       SQL_insert_user = (
-        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{friday[row].get()}", "friday")'
+        f'UPDATE eventos SET titulo = "{friday[row].get()}", diaSemana = "friday" WHERE id = {row}'
       )
       db_user_insert(connection, SQL_insert_user)
 
       SQL_insert_user = (
-        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{saturday[row].get()}", "saturday")'
+        f'UPDATE eventos SET titulo = "{saturday[row].get()}", diaSemana = "saturday" WHERE id = {row}'
       )
       db_user_insert(connection, SQL_insert_user)
 
-      
+
     SQL_search_events = "SELECT * FROM eventos"
     events = db_search_events(connection, SQL_search_events)
 
