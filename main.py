@@ -2,12 +2,12 @@ import random
 from tkinter import *
 from tkinter import messagebox
 
-from classes import Usuario
-from connection import *
-import smtplib
-import email.message
-import sqlite3
 import time
+import smtplib
+import sqlite3
+import email.message
+from connection import *
+from classes import Usuario
 
 global userObjects
 userObjects = []
@@ -249,43 +249,43 @@ def editScreen(title):
           ); """
     db_table_create(connection, SQL_create_table)
 
-    for index in range(12):
-      print(sunday[index].get())
+    for row in range(12):
       SQL_insert_user = (
-        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{valoresSunday[row]}", "sunday")'
+        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{sunday[row].get()}", "sunday")'
       )
       db_user_insert(connection, SQL_insert_user)
 
-      # SQL_insert_user = (
-      #   f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{str(monday[row])}", "monday")'
-      # )
-      # db_user_insert(connection, SQL_insert_user)
+      SQL_insert_user = (
+        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{monday[row].get()}", "monday")'
+      )
+      db_user_insert(connection, SQL_insert_user)
 
-      # SQL_insert_user = (
-      #   f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{tuesday[row]}", "tuesday")'
-      # )
-      # db_user_insert(connection, SQL_insert_user)
+      SQL_insert_user = (
+        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{tuesday[row].get()}", "tuesday")'
+      )
+      db_user_insert(connection, SQL_insert_user)
 
-      # SQL_insert_user = (
-      #   f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{wednesday[row]}", "wednesday")'
-      # )
-      # db_user_insert(connection, SQL_insert_user)
+      SQL_insert_user = (
+        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{wednesday[row].get()}", "wednesday")'
+      )
+      db_user_insert(connection, SQL_insert_user)
 
-      # SQL_insert_user = (
-      #   f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{thursday[row]}", "thursday")'
-      # )
-      # db_user_insert(connection, SQL_insert_user)
+      SQL_insert_user = (
+        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{thursday[row].get()}", "thursday")'
+      )
+      db_user_insert(connection, SQL_insert_user)
 
-      # SQL_insert_user = (
-      #   f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{friday[row]}", "friday")'
-      # )
-      # db_user_insert(connection, SQL_insert_user)
+      SQL_insert_user = (
+        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{friday[row].get()}", "friday")'
+      )
+      db_user_insert(connection, SQL_insert_user)
 
-      # SQL_insert_user = (
-      #   f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{saturday[row]}", "saturday")'
-      # )
-      # db_user_insert(connection, SQL_insert_user)
+      SQL_insert_user = (
+        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("{saturday[row].get()}", "saturday")'
+      )
+      db_user_insert(connection, SQL_insert_user)
 
+      
     SQL_search_events = "SELECT * FROM eventos"
     events = db_search_events(connection, SQL_search_events)
 
@@ -307,55 +307,51 @@ def editScreen(title):
      homeScreen('Microsfot - Tarefas')])
   button_confirm.place(width=36.5, height=36.5, x=91, y=122)
 
-  # sunday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  sunday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  # monday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  # tuesday =  ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  # wednesday =['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  # thursday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  # friday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  # saturday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  y = 233
+  sunday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
+  monday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
+  tuesday =  ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
+  wednesday =['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
+  thursday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
+  friday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
+  saturday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
+
+  y = [233, 233, 233, 233, 233, 233, 233]
+
   for index in range(12):
     sunday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-    sunday[index].place(width=98, height=23, x=153, y=y)
-    y += 33
+    sunday[index].place(width=98, height=23, x=153, y=y[0])
+    y[0] += 33
 
-  # indexDays = 0
-  # for y in range(233, 608, 33):
-  #   monday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-  #   monday[indexDays].place(width=98, height=23, x=299, y=y)
-  #   indexDays += 1
+  for index in range(12):
+    monday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    monday[index].place(width=98, height=23, x=299, y=y[1])
+    y[1] += 33
 
-  # indexDays = 0
-  # for y in range(233, 608, 33):
-  #   tuesday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-  #   tuesday[indexDays].place(width=98, height=23, x=445, y=y)
-  #   indexDays += 1
+  for index in range(12):
+    tuesday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    tuesday[index].place(width=98, height=23, x=445, y=y[2])
+    y[2] += 33
 
-  # indexDays = 0
-  # for y in range(233, 608, 33):
-  #   wednesday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-  #   wednesday[indexDays].place(width=98, height=23, x=591, y=y)
-  #   indexDays += 1
+  for index in range(12):
+    wednesday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    wednesday[index].place(width=98, height=23, x=591, y=y[3])
+    y[3] += 33
 
-  # indexDays = 0
-  # for y in range(233, 608, 33):
-  #   thursday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-  #   thursday[indexDays].place(width=98, height=23, x=737, y=y)
-  #   indexDays += 1
+  for index in range(12):
+    thursday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    thursday[index].place(width=98, height=23, x=737, y=y[4])
+    y[4] += 33
 
-  # indexDays = 0
-  # for y in range(233, 608, 33):
-  #   friday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-  #   friday[indexDays].place(width=98, height=23, x=883, y=y)
-  #   indexDays += 1
+  for index in range(12):
+    friday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    friday[index].place(width=98, height=23, x=883, y=y[5])
+    y[5] += 33
 
-  # indexDays = 0
-  # for y in range(233, 608, 33):
-  #   saturday[indexDays] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-  #   saturday[indexDays].place(width=98, height=23, x=1029, y=y)
-  #   indexDays += 1
+  for index in range(12):
+    saturday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    saturday[index].place(width=98, height=23, x=1029, y=y[6])
+    y[6] += 33
+
   screen.mainloop()
 
 
