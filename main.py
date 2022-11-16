@@ -80,8 +80,19 @@ def signinScreen(title):
 
 
 def signupScreen(title):
+  connection = db_connection_start()
+  SQL_create_table = """
+    CREATE TABLE IF NOT EXISTS usuarios (                  
+    idUser integer PRIMARY KEY AUTOINCREMENT,
+    email text NOT NULL,
+    senha text NOT NULL
+    ); """
+  db_table_create(connection, SQL_create_table)
 
   def verificationEmail():
+    SQL_search_user = "SELECT email FROM usuarios"
+    emails_in_database = db_search_user(connection, SQL_search_user)
+
     emails_extensios = [
       'ifro.edu.br', 'estudante.ifro.edu.br', 'gmail.com', 'hotmail.com',
       'yahoo.com'
@@ -89,106 +100,106 @@ def signupScreen(title):
     simbols = [
       '@', '#', '$', '%', '&',
     ]
+    email_verification = False
 
     first_input = input_email.get()
     second_input = input_email_again.get()
     password = input_password.get()
-    senhaForte = False
+    senhaForte = True
+
+    for email in emails_in_database:
+      if email[0] == first_input:
+        email_verification = False
 
     if '@' in list(first_input):
       if first_input.split('@')[1] in emails_extensios:
-        if first_input == second_input:
-          if len(password) >= 8:
-            if password.upper() != password and password.lower() != password:
-              for simbol in simbols:
-                if simbol in list(password):
-                  senhaForte = True
-                  connection = db_connection_start()
-                  SQL_create_table = """
-                  CREATE TABLE IF NOT EXISTS usuarios (                  
-                  idUser integer PRIMARY KEY AUTOINCREMENT,
-                  email text NOT NULL,
-                  senha text NOT NULL
-                  ); """
-                  db_table_create(connection, SQL_create_table)
+        if email_verification == True:
+          if first_input == second_input:
+            if len(password) >= 8:
+              if password.upper() != password and password.lower() != password:
+                for simbol in simbols:
+                  if simbol in list(password):
+                    senhaForte = True
 
-                  SQL_insert_user = (
-                    f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")'
-                  )
-                  db_user_insert(connection, SQL_insert_user)
+                    SQL_insert_user = (
+                      f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")'
+                    )
+                    db_user_insert(connection, SQL_insert_user)
 
-                  SQL_search_user = """SELECT idUser FROM usuarios
-                  ORDER BY idUser DESC
-                  LIMIT 1;"""
-                  user = db_search_user(connection, SQL_search_user)
+                    SQL_search_user = """SELECT idUser FROM usuarios
+                    ORDER BY idUser DESC
+                    LIMIT 1;"""
+                    user = db_search_user(connection, SQL_search_user)
 
-                  lastUserId = user[0]
-                  if lastUserId == None:
-                    lastUserId = 0
-                  nameNewObjectUser = f'User{lastUserId}'
-                  nameNewObjectUser = Usuario(lastUserId, first_input, password)
+                    lastUserId = user[0]
+                    if lastUserId == None:
+                      lastUserId = 0
+                    nameNewObjectUser = f'User{lastUserId}'
+                    nameNewObjectUser = Usuario(lastUserId, first_input, password)
 
-                  userObjects.append(nameNewObjectUser)
+                    userObjects.append(nameNewObjectUser)
 
-                  messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
+                    messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
-                  SQL_create_table = """   
-                          CREATE TABLE IF NOT EXISTS eventos (                  
-                            id integer PRIMARY KEY AUTOINCREMENT,
-                            titulo text NOT NULL,
-                            diaSemana text NOT NULL
-                          ); """
-                  db_table_create(connection, SQL_create_table)
+                    SQL_create_table = """   
+                            CREATE TABLE IF NOT EXISTS eventos (                  
+                              id integer PRIMARY KEY AUTOINCREMENT,
+                              titulo text NOT NULL,
+                              diaSemana text NOT NULL
+                            ); """
+                    db_table_create(connection, SQL_create_table)
 
-                  for row in range(12):
-                      SQL_insert_user = (
-                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sunday")'
-                      )
-                      db_user_insert(connection, SQL_insert_user)
+                    for row in range(12):
+                        SQL_insert_user = (
+                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sunday")'
+                        )
+                        db_user_insert(connection, SQL_insert_user)
 
-                      SQL_insert_user = (
-                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "monday")'
-                      )
-                      db_user_insert(connection, SQL_insert_user)
+                        SQL_insert_user = (
+                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "monday")'
+                        )
+                        db_user_insert(connection, SQL_insert_user)
 
-                      SQL_insert_user = (
-                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "tuesday")'
-                      )
-                      db_user_insert(connection, SQL_insert_user)
+                        SQL_insert_user = (
+                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "tuesday")'
+                        )
+                        db_user_insert(connection, SQL_insert_user)
 
-                      SQL_insert_user = (
-                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "wednesday")'
-                      )
-                      db_user_insert(connection, SQL_insert_user)
+                        SQL_insert_user = (
+                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "wednesday")'
+                        )
+                        db_user_insert(connection, SQL_insert_user)
 
-                      SQL_insert_user = (
-                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "thursday")'
-                      )
-                      db_user_insert(connection, SQL_insert_user)
+                        SQL_insert_user = (
+                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "thursday")'
+                        )
+                        db_user_insert(connection, SQL_insert_user)
 
-                      SQL_insert_user = (
-                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "friday")'
-                      )
-                      db_user_insert(connection, SQL_insert_user)
+                        SQL_insert_user = (
+                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "friday")'
+                        )
+                        db_user_insert(connection, SQL_insert_user)
 
-                      SQL_insert_user = (
-                        f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sartuday")'
-                      )
-                      db_user_insert(connection, SQL_insert_user)
+                        SQL_insert_user = (
+                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sartuday")'
+                        )
+                        db_user_insert(connection, SQL_insert_user)
 
-                  db_connection_close(connection)
-                  time.sleep(0.5)
-                  screen.destroy(),
-                  signinScreen('Microsfot - Login')
-              if senhaForte != True:
-                messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
-                (Ex: @, #, % etc.)""")
+                    db_connection_close(connection)
+                    time.sleep(0.5)
+                    screen.destroy(),
+                    signinScreen('Microsfot - Login')
+                if senhaForte != True:
+                  messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
+                  (Ex: @, #, % etc.)""")
+              else:
+                messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
             else:
-              messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+              messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
           else:
-            messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
+            messagebox.showerror("ERRO", """Os emails devem ser iguais""")
         else:
-          messagebox.showerror("ERRO", """Os emails devem ser iguais""")
+          messagebox.showerror("ERRO", """Email já cadastrado""")
       else:
         messagebox.showerror("ERRO", """Insira um email válido.""")
         input_email.delete(0, END)
@@ -226,7 +237,6 @@ def signupScreen(title):
       signinScreen('Microsfot - Tela Inicial')
   ])
   button_back.place(width=131, height=45, x=415, y=537)
-
 
   screen.mainloop()
 
