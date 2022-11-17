@@ -8,10 +8,10 @@ class ErrorExtensaoEmailInvalido(Exception):
 class ErrorEmailJaUsado(Exception):
     pass
 
-class ErrorSenhaMuitoPequena(Exception):
+class ErrorEmailsDiferentes(Exception):
     pass
 
-class ErrorEmailsDiferentes(Exception):
+class ErrorSenhaMuitoPequena(Exception):
     pass
 
 class ErrorSenhaSemLetra(Exception):
