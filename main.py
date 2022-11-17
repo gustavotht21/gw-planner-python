@@ -10,6 +10,7 @@ from connection import *
 from classes import Usuario
 
 global userObjects
+# hidePassword = StringVar()
 userObjects = []
 
 def signinScreen(title):
@@ -43,6 +44,7 @@ def signinScreen(title):
   screen.title(title)
   screen.geometry('1280x800')
 
+  hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/login.png')
   signinButton = PhotoImage(file='assets/components/signinButton.png')
   signupButton = PhotoImage(file='assets/components/signupButton.png')
@@ -55,7 +57,7 @@ def signinScreen(title):
   input_email = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_email.place(width=370, height=35, x=172, y=353)
 
-  input_password = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+  input_password = Entry(screen, highlightthickness=0, textvariable=hidePassword, show="*", bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_password.place(width=370, height=35, x=172, y=450)
 
   button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=signinButton, command=login)
@@ -212,6 +214,7 @@ def signupScreen(title):
   screen.title(title)
   screen.geometry('1280x800')
 
+  hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/signup.png')
   finalizeButton = PhotoImage(file='assets/components/finalizeButton.png')
   backButton = PhotoImage(file='assets/components/BackButton.png')
@@ -225,7 +228,7 @@ def signupScreen(title):
   input_email_again = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_email_again.place(width=370, height=35, x=172, y=393)
 
-  input_password = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+  input_password = Entry(screen, highlightthickness=0, textvariable=hidePassword, show="*", bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_password.place(width=370, height=35, x=172, y=458)
 
   button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=finalizeButton, command=verificationEmail)
