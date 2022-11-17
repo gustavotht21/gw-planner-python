@@ -14,7 +14,7 @@
 * [Serviços utilizados](#-serviços-utilizados)
 * [Funcionalidades do projeto](#-funcionalidades-do-projeto)
 * [Acesso ao projeto](#-acesso-ao-projeto)
-* [Autor](#-autor)
+* [Autor(es)](#-autores)
 * [Contato](#%EF%B8%8F-contato)
 
 ## ⚙️ Introdução 
