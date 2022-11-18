@@ -151,7 +151,6 @@ def signupScreen(title):
       messagebox.showerror("ERRO", """Insira um email válido.""")
       input_email.delete(0, END)
       input_email_again.delete(0, END)
-  screen = createScreens(title)
 
     except ErrorEmailJaUsado:
       messagebox.showerror("ERRO", """Email já cadastrado""")
