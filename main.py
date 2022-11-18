@@ -1,7 +1,7 @@
 import random
 from tkinter import *
 from tkinter import messagebox
-
+from exceptions import *
 import time
 import smtplib
 import sqlite3
@@ -26,27 +26,32 @@ def signinScreen(title):
     SQL_search_user = "SELECT * FROM usuarios"
     users = db_search_user(connection, SQL_search_user)
     validado = False
-    for user in users:
-      if user[1] == input_email.get() and user[2] == input_password.get():
-        if not userObjects or len(userObjects) < len(users):
-          nameNewObjectUser = f'User{user[0]}'
-          nameNewObjectUser = Usuario(user[0], user[1], user[2])
-          userObjects.append(nameNewObjectUser)
-        validado = True
-        userObjects[user[0]-1].getUserInformations()
-        userObjects[user[0]-1].realizarLogin(user[1], user[2])
-        screen.destroy()
-        homeScreen("Microsfot - Tarefas")
-    if validado == False:
+
+    try:
+      for user in users:
+        if user[1] == input_email.get() and user[2] == input_password.get():
+          if not userObjects or len(userObjects) < len(users):
+            nameNewObjectUser = f'User{user[0]}'
+            nameNewObjectUser = Usuario(user[0], user[1], user[2])
+            userObjects.append(nameNewObjectUser)
+          validado = True
+          userObjects[user[0] - 1].getUserInformations()
+          userObjects[user[0] - 1].realizarLogin(user[1], user[2])
+          screen.destroy()
+          homeScreen("Microsfot - Tarefas")
+      if validado == False:
+        raise ErrorCredenciaisIncorretas
+    except ErrorCredenciaisIncorretas:
       messagebox.showerror("ERRO", """Erro ao tentar fazer login. Considere:
-      - Ver se as informações foram escritas corretamente;
-      - Cadastrar-se caso não possua conta;
-      - Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
+            - Ver se as informações foram escritas corretamente;
+            - Cadastrar-se caso não possua conta;
+            - Clicar em "Esqueceu a senha?" para recuperar sua senha, caso a tenha esquecido""")
       input_email.delete(0, END)
       input_password.delete(0, END)
 
-    db_connection_close(connection)
 
+
+    db_connection_close(connection)
   screen = createScreens(title)
 
   hidePassword = StringVar()
@@ -97,126 +102,139 @@ def signupScreen(title):
   db_table_create(connection, SQL_create_table)
 
   def verificationEmail():
-    SQL_search_user = "SELECT email FROM usuarios"
-    emails_in_database = db_search_user(connection, SQL_search_user)
 
-    emails_extensios = [
-      'ifro.edu.br', 'estudante.ifro.edu.br', 'gmail.com', 'hotmail.com',
-      'yahoo.com'
-    ]
-    simbols = [
-      '@', '#', '$', '%', '&',
-    ]
-    email_verification = False
 
-    first_input = input_email.get()
-    second_input = input_email_again.get()
-    password = input_password.get()
-    senhaForte = True
+    try:
+      SQL_search_user = "SELECT email FROM usuarios"
+      emails_in_database = db_search_user(connection, SQL_search_user)
 
-    for email in emails_in_database:
-      if email[0] == first_input:
-        email_verification = False
+      emails_extensios = [
+        'ifro.edu.br', 'estudante.ifro.edu.br', 'gmail.com', 'hotmail.com',
+        'yahoo.com'
+      ]
+      simbols = [
+        '@', '#', '$', '%', '&',
+      ]
+      email_verification = False
 
-    if '@' in list(first_input):
-      if first_input.split('@')[1] in emails_extensios:
-        if email_verification == True:
-          if first_input == second_input:
-            if len(password) >= 8:
-              if password.upper() != password and password.lower() != password:
-                for simbol in simbols:
-                  if simbol in list(password):
-                    senhaForte = True
+      first_input = input_email.get()
+      second_input = input_email_again.get()
+      password = input_password.get()
+      senhaForte = True
 
-                    SQL_insert_user = (
-                      f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")'
-                    )
-                    db_user_insert(connection, SQL_insert_user)
+      for email in emails_in_database:
+        if email[0] == first_input:
+          email_verification = False
 
-                    SQL_search_user = """SELECT idUser FROM usuarios
-                    ORDER BY idUser DESC
-                    LIMIT 1;"""
-                    user = db_search_user(connection, SQL_search_user)
-
-                    lastUserId = user[0]
-                    if lastUserId == None:
-                      lastUserId = 0
-                    nameNewObjectUser = f'User{lastUserId}'
-                    nameNewObjectUser = Usuario(lastUserId, first_input, password)
-
-                    userObjects.append(nameNewObjectUser)
-
-                    messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
-
-                    SQL_create_table = """   
-                            CREATE TABLE IF NOT EXISTS eventos (                  
-                              id integer PRIMARY KEY AUTOINCREMENT,
-                              titulo text NOT NULL,
-                              diaSemana text NOT NULL
-                            ); """
-                    db_table_create(connection, SQL_create_table)
-
-                    for row in range(12):
-                        SQL_insert_user = (
-                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sunday")'
-                        )
-                        db_user_insert(connection, SQL_insert_user)
-
-                        SQL_insert_user = (
-                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "monday")'
-                        )
-                        db_user_insert(connection, SQL_insert_user)
-
-                        SQL_insert_user = (
-                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "tuesday")'
-                        )
-                        db_user_insert(connection, SQL_insert_user)
-
-                        SQL_insert_user = (
-                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "wednesday")'
-                        )
-                        db_user_insert(connection, SQL_insert_user)
-
-                        SQL_insert_user = (
-                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "thursday")'
-                        )
-                        db_user_insert(connection, SQL_insert_user)
-
-                        SQL_insert_user = (
-                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "friday")'
-                        )
-                        db_user_insert(connection, SQL_insert_user)
-
-                        SQL_insert_user = (
-                          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sartuday")'
-                        )
-                        db_user_insert(connection, SQL_insert_user)
-
-                    db_connection_close(connection)
-                    time.sleep(0.5)
-                    screen.destroy(),
-                    signinScreen('Microsfot - Login')
-                if senhaForte != True:
-                  messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
-                  (Ex: @, #, % etc.)""")
-              else:
-                messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
-            else:
-              messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
-          else:
-            messagebox.showerror("ERRO", """Os emails devem ser iguais""")
-        else:
-          messagebox.showerror("ERRO", """Email já cadastrado""")
-      else:
-        messagebox.showerror("ERRO", """Insira um email válido.""")
-        input_email.delete(0, END)
-        input_email_again.delete(0, END)
-    else:
+      if '@' not in list(first_input):
+        raise ErrorEmailSemArroba
+      if first_input.split('@')[1] not in emails_extensios:
+        raise ErrorExtensaoEmailInvalido
+      if email_verification == True:
+        raise ErrorEmailJaUsado
+      if first_input != second_input:
+        raise ErrorEmailsDiferentes
+      if len(password) < 8:
+        raise ErrorSenhaMuitoPequena
+      if password.upper() == password and password.lower() == password:
+        raise ErrorSenhaSemLetra
+      for simbol in simbols:
+        if simbol not in list(password):
+          senhaForte = False
+      if senhaForte != True:
+        raise ErrorSenhaSemSimbolo
+    except ErrorEmailSemArroba:
+      messagebox.showerror("ERRO", """Insira um email válido.""")
+      input_email.delete(0, END)
+      input_email_again.delete(0, END)
+    except ErrorExtensaoEmailInvalido:
       messagebox.showerror("ERRO", """Insira um email válido.""")
       input_email.delete(0, END)
       input_email_again.delete(0, END)
   screen = createScreens(title)
 
+    except ErrorEmailJaUsado:
+      messagebox.showerror("ERRO", """Email já cadastrado""")
+    except ErrorEmailsDiferentes:
+      messagebox.showerror("ERRO", """Os emails devem ser iguais""")
+    except ErrorSenhaMuitoPequena:
+      messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
+    except ErrorSenhaSemLetra:
+      messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+    except ErrorSenhaSemSimbolo:
+      messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
+              (Ex: @, #, % etc.)""")
+    else:
+      SQL_insert_user = (
+        f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")'
+      )
+      db_user_insert(connection, SQL_insert_user)
+
+      SQL_search_user = """SELECT idUser FROM usuarios
+               ORDER BY idUser DESC
+               LIMIT 1;"""
+      user = db_search_user(connection, SQL_search_user)
+
+      lastUserId = user[0]
+      if lastUserId == None:
+        lastUserId = 0
+      nameNewObjectUser = f'User{lastUserId}'
+      nameNewObjectUser = Usuario(lastUserId, first_input, password)
+
+      userObjects.append(nameNewObjectUser)
+
+      messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
+
+      SQL_create_table = """   
+                       CREATE TABLE IF NOT EXISTS eventos (                  
+                         id integer PRIMARY KEY AUTOINCREMENT,
+                         titulo text NOT NULL,
+                         diaSemana text NOT NULL
+                       ); """
+      db_table_create(connection, SQL_create_table)
+
+      for row in range(12):
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sunday")'
+        )
+        db_user_insert(connection, SQL_insert_user)
+
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "monday")'
+        )
+        db_user_insert(connection, SQL_insert_user)
+
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "tuesday")'
+        )
+        db_user_insert(connection, SQL_insert_user)
+
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "wednesday")'
+        )
+        db_user_insert(connection, SQL_insert_user)
+
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "thursday")'
+        )
+        db_user_insert(connection, SQL_insert_user)
+
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "friday")'
+        )
+        db_user_insert(connection, SQL_insert_user)
+
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sartuday")'
+        )
+        db_user_insert(connection, SQL_insert_user)
+
+      db_connection_close(connection)
+      time.sleep(0.5)
+      screen.destroy(),
+      signinScreen('Microsfot - Login')
+
+  screen = createScreens(title)
   hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/signup.png')
   finalizeButton = PhotoImage(file='assets/components/finalizeButton.png')
@@ -338,7 +356,6 @@ def editScreen(title):
     events = db_search_events(connection, SQL_search_events)
 
     db_connection_close(connection)
-
   screen = createScreens(title)
 
   background = PhotoImage(file='assets/backgrounds/edit.png')
@@ -425,22 +442,25 @@ def editPassword(title):
     connection = db_connection_start()
     SQL_search_user = "SELECT * FROM usuarios"
     users = db_search_user(connection, SQL_search_user)
-
     validado = False
-    for user in users:
-      if user[1] == input_email.get():
-        enviarEmail(input_email.get())
-        global emailParaRedefinicao
-        emailParaRedefinicao = str(input_email.get())
-        screen.destroy()
-        ScreenInsertCode("Microsfot - Insira o código")
-        validado = True
-    if validado == False:
-      messagebox.showerror("ERRO", """Ops... ocorreu um erro! O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
+    try:
+      for user in users:
+        if user[1] != input_email.get():
+          validado = False
+      if validado == False:
+        raise ErrorEmailInexistente
+    except ErrorEmailInexistente:
+      messagebox.showerror("ERRO",
+                           """Ops... ocorreu um erro! O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
+    else:
+      enviarEmail(input_email.get())
+      global emailParaRedefinicao
+      emailParaRedefinicao = str(input_email.get())
+      screen.destroy()
+      ScreenInsertCode("Microsfot - Insira o código")
     db_connection_close(connection)
 
   screen = createScreens(title)
-
   background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
   restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
   backButton = PhotoImage(file='assets/components/BackButton.png')
@@ -468,13 +488,17 @@ def editPassword(title):
 
 def ScreenInsertCode(title):
   def verificaCodigo():
-    if input_code.get() == str(code):
+    try:
+      if input_code.get() != str(code):
+        raise ErrorCodigoInvalido
+    except ErrorCodigoInvalido:
+      messagebox.showerror("ERRO", """Código inválido""")
+    else:
       screen.destroy()
       ScreenNewPassword("Microsfot - Inserindo a nova senha")
-    else:
-      messagebox.showerror("ERRO", """Código inválido""")
 
   screen = createScreens(title)
+
 
   background = PhotoImage(file='assets/backgrounds/ScreenInsertCode.png')
   resetButton = PhotoImage(file='assets/components/ButtonReset.png')
@@ -502,42 +526,47 @@ def ScreenInsertCode(title):
 
 def ScreenNewPassword(title):
   def verificaSenhas():
+    try:
+      simbols = [
+        '@', '#', '$', '%', '&',
+      ]
+      password = input_NewPassword
+      senhaForte = False
+      if input_NewPassword.get() != input_NewPasswordAgain.get():
+        raise ErrorSenhasNaoCoincidem
+      if len(password) < 8:
+        raise ErrorSenhaMuitoPequena
+      if password.upper() == password and password.lower() == password:
+        raise ErrorSenhaSemLetra
+      for simbol in simbols:
+        if simbol not in list(password):
+          senhaForte = False
+      if senhaForte != True:
+        raise ErrorSenhaSemSimbolo
 
-    simbols = [
-      '@', '#', '$', '%', '&',
-    ]
-    password = input_NewPassword
-    senhaForte = False
-
-    if input_NewPassword.get() == input_NewPasswordAgain.get():
-      if len(password) >= 8:
-        if password.upper() != password and password.lower() != password:
-          for simbol in simbols:
-            if simbol in list(password):
-              senhaForte = True
-              connection = db_connection_start()
-              SQL_reset_password = (
-                f"""
-                UPDATE usuarios
-                SET senha = "{input_NewPassword.get()}"
-                WHERE email = "{emailParaRedefinicao}";      
-                """
-              )
-              db_reset_password(connection, SQL_reset_password)
-              db_connection_close(connection)
-
-              messagebox.showinfo("SUCESSO", """Senha redefinida com sucesso""")
-              screen.destroy()
-              signinScreen('Microsfot - Tela Inicial')
-          if senhaForte != True:
-            messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
-            (Ex: @, #, % etc.)""")
-        else:
-          messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
-      else:
-        messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
-    else:
+    except ErrorSenhasNaoCoincidem:
       messagebox.showerror("ERRO", """As senhas não coincidem""")
+    except ErrorSenhaMuitoPequena:
+      messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
+    except ErrorSenhaSemLetra:
+      messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+    except ErrorSenhaSemSimbolo:
+      messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial (Ex: @, #, % etc.)""")
+    else:
+      connection = db_connection_start()
+      SQL_reset_password = (
+        f"""
+        UPDATE usuarios
+        SET senha = "{input_NewPassword.get()}"
+        WHERE email = "{emailParaRedefinicao}";      
+        """
+      )
+      db_reset_password(connection, SQL_reset_password)
+      db_connection_close(connection)
+
+      messagebox.showinfo("SUCESSO", """Senha redefinida com sucesso""")
+      screen.destroy()
+      signinScreen('Microsfot - Tela Inicial')
 
   screen = createScreens(title)
 
