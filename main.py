@@ -126,7 +126,7 @@ def signupScreen(title):
         raise ErrorEmailSemArroba
       if first_input.split('@')[1] not in emails_extensios:
         raise ErrorExtensaoEmailInvalido
-      if email_verification != True:
+      if email_verification == True:
         raise ErrorEmailJaUsado
       if first_input != second_input:
         raise ErrorEmailsDiferentes
@@ -445,18 +445,22 @@ def editPassword(title):
     connection = db_connection_start()
     SQL_search_user = "SELECT * FROM usuarios"
     users = db_search_user(connection, SQL_search_user)
-
     validado = False
-    for user in users:
-      if user[1] == input_email.get():
-        enviarEmail(input_email.get())
-        global emailParaRedefinicao
-        emailParaRedefinicao = str(input_email.get())
-        screen.destroy()
-        ScreenInsertCode("Microsfot - Insira o código")
-        validado = True
-    if validado == False:
-      messagebox.showerror("ERRO", """Ops... ocorreu um erro! O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
+    try:
+      for user in users:
+        if user[1] != input_email.get():
+          validado = False
+      if validado == False:
+        raise ErrorEmailInexistente
+    except ErrorEmailInexistente:
+      messagebox.showerror("ERRO",
+                           """Ops... ocorreu um erro! O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
+    else:
+      enviarEmail(input_email.get())
+      global emailParaRedefinicao
+      emailParaRedefinicao = str(input_email.get())
+      screen.destroy()
+      ScreenInsertCode("Microsfot - Insira o código")
     db_connection_close(connection)
 
   screen = Tk()
@@ -490,11 +494,14 @@ def editPassword(title):
 
 def ScreenInsertCode(title):
   def verificaCodigo():
-    if input_code.get() == str(code):
+    try:
+      if input_code.get() != str(code):
+        raise ErrorCodigoInvalido
+    except ErrorCodigoInvalido:
+      messagebox.showerror("ERRO", """Código inválido""")
+    else:
       screen.destroy()
       ScreenNewPassword("Microsfot - Inserindo a nova senha")
-    else:
-      messagebox.showerror("ERRO", """Código inválido""")
 
 
   screen = Tk()
@@ -527,42 +534,47 @@ def ScreenInsertCode(title):
 
 def ScreenNewPassword(title):
   def verificaSenhas():
+    try:
+      simbols = [
+        '@', '#', '$', '%', '&',
+      ]
+      password = input_NewPassword
+      senhaForte = False
+      if input_NewPassword.get() != input_NewPasswordAgain.get():
+        raise ErrorSenhasNaoCoincidem
+      if len(password) < 8:
+        raise ErrorSenhaMuitoPequena
+      if password.upper() == password and password.lower() == password:
+        raise ErrorSenhaSemLetra
+      for simbol in simbols:
+        if simbol not in list(password):
+          senhaForte = False
+      if senhaForte != True:
+        raise ErrorSenhaSemSimbolo
 
-    simbols = [
-      '@', '#', '$', '%', '&',
-    ]
-    password = input_NewPassword
-    senhaForte = False
-
-    if input_NewPassword.get() == input_NewPasswordAgain.get():
-      if len(password) >= 8:
-        if password.upper() != password and password.lower() != password:
-          for simbol in simbols:
-            if simbol in list(password):
-              senhaForte = True
-              connection = db_connection_start()
-              SQL_reset_password = (
-                f"""
-                UPDATE usuarios
-                SET senha = "{input_NewPassword.get()}"
-                WHERE email = "{emailParaRedefinicao}";      
-                """
-              )
-              db_reset_password(connection, SQL_reset_password)
-              db_connection_close(connection)
-
-              messagebox.showinfo("SUCESSO", """Senha redefinida com sucesso""")
-              screen.destroy()
-              signinScreen('Microsfot - Tela Inicial')
-          if senhaForte != True:
-            messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
-            (Ex: @, #, % etc.)""")
-        else:
-          messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
-      else:
-        messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
-    else:
+    except ErrorSenhasNaoCoincidem:
       messagebox.showerror("ERRO", """As senhas não coincidem""")
+    except ErrorSenhaMuitoPequena:
+      messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
+    except ErrorSenhaSemLetra:
+      messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+    except ErrorSenhaSemSimbolo:
+      messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial (Ex: @, #, % etc.)""")
+    else:
+      connection = db_connection_start()
+      SQL_reset_password = (
+        f"""
+        UPDATE usuarios
+        SET senha = "{input_NewPassword.get()}"
+        WHERE email = "{emailParaRedefinicao}";      
+        """
+      )
+      db_reset_password(connection, SQL_reset_password)
+      db_connection_close(connection)
+
+      messagebox.showinfo("SUCESSO", """Senha redefinida com sucesso""")
+      screen.destroy()
+      signinScreen('Microsfot - Tela Inicial')
 
 
   screen = Tk()

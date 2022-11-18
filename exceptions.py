@@ -31,3 +31,5 @@ class ErrorEmailInexistente(Exception):
 class ErrorCodigoInvalido(Exception):
     pass
 
+class ErrorSenhasNaoCoincidem(Exception):
+    pass
