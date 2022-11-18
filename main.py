@@ -17,6 +17,7 @@ def createScreens(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
+  screen.resizable(width=False, height=False)
   return screen
 
 def signinScreen(title):
