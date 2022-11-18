@@ -13,6 +13,13 @@ global userObjects
 # hidePassword = StringVar()
 userObjects = []
 
+def createScreens(title):
+  screen = Tk()
+  screen.title(title)
+  screen.geometry('1280x800')
+  screen.resizable(width=False, height=False)
+  return screen
+
 def signinScreen(title):
   def login():
     connection = db_connection_start()
@@ -45,11 +52,7 @@ def signinScreen(title):
 
 
     db_connection_close(connection)
-
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
-  screen.resizable(width=False, height=False)
+  screen = createScreens(title)
 
   hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/login.png')
@@ -148,6 +151,8 @@ def signupScreen(title):
       messagebox.showerror("ERRO", """Insira um email válido.""")
       input_email.delete(0, END)
       input_email_again.delete(0, END)
+  screen = createScreens(title)
+
     except ErrorEmailJaUsado:
       messagebox.showerror("ERRO", """Email já cadastrado""")
     except ErrorEmailsDiferentes:
@@ -229,11 +234,7 @@ def signupScreen(title):
       screen.destroy(),
       signinScreen('Microsfot - Login')
 
-
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
-  screen.resizable(width=False, height=False)
+  screen = createScreens(title)
   hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/signup.png')
   finalizeButton = PhotoImage(file='assets/components/finalizeButton.png')
@@ -265,10 +266,8 @@ def signupScreen(title):
 
 
 def homeScreen(title):
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
-  screen.resizable(width=False, height=False)
+  screen = createScreens(title)
+
   background = PhotoImage(file='assets/backgrounds/homeplanner.png')
   editButton = PhotoImage(file='assets/components/editButton.png')
   signoutButton = PhotoImage(file='assets/components/signOutButton.png')
@@ -357,11 +356,8 @@ def editScreen(title):
     events = db_search_events(connection, SQL_search_events)
 
     db_connection_close(connection)
+  screen = createScreens(title)
 
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
-  screen.resizable(width=False, height=False)
   background = PhotoImage(file='assets/backgrounds/edit.png')
   confirmButton = PhotoImage(file='assets/components/confirmButton.png')
 
@@ -464,10 +460,7 @@ def editPassword(title):
       ScreenInsertCode("Microsfot - Insira o código")
     db_connection_close(connection)
 
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
-  screen.resizable(width=False, height=False)
+  screen = createScreens(title)
   background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
   restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
   backButton = PhotoImage(file='assets/components/BackButton.png')
@@ -504,11 +497,9 @@ def ScreenInsertCode(title):
       screen.destroy()
       ScreenNewPassword("Microsfot - Inserindo a nova senha")
 
+  screen = createScreens(title)
 
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
-  screen.resizable(width=False, height=False)
+
   background = PhotoImage(file='assets/backgrounds/ScreenInsertCode.png')
   resetButton = PhotoImage(file='assets/components/ButtonReset.png')
   backButton = PhotoImage(file='assets/components/BackButton.png')
@@ -577,11 +568,7 @@ def ScreenNewPassword(title):
       screen.destroy()
       signinScreen('Microsfot - Tela Inicial')
 
-
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
-  screen.resizable(width=False, height=False)
+  screen = createScreens(title)
 
   background = PhotoImage(file='assets/backgrounds/ScreenNewPassword.png')
   concludeButton = PhotoImage(file='assets/components/ButtonConclude.png')
