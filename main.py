@@ -49,6 +49,7 @@ def signinScreen(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
+  screen.resizable(width=False, height=False)
 
   hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/login.png')
@@ -232,7 +233,7 @@ def signupScreen(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
-
+  screen.resizable(width=False, height=False)
   hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/signup.png')
   finalizeButton = PhotoImage(file='assets/components/finalizeButton.png')
@@ -267,7 +268,7 @@ def homeScreen(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
-
+  screen.resizable(width=False, height=False)
   background = PhotoImage(file='assets/backgrounds/homeplanner.png')
   editButton = PhotoImage(file='assets/components/editButton.png')
   signoutButton = PhotoImage(file='assets/components/signOutButton.png')
@@ -360,7 +361,7 @@ def editScreen(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
-
+  screen.resizable(width=False, height=False)
   background = PhotoImage(file='assets/backgrounds/edit.png')
   confirmButton = PhotoImage(file='assets/components/confirmButton.png')
 
@@ -466,7 +467,7 @@ def editPassword(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
-
+  screen.resizable(width=False, height=False)
   background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
   restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
   backButton = PhotoImage(file='assets/components/BackButton.png')
@@ -507,7 +508,7 @@ def ScreenInsertCode(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
-
+  screen.resizable(width=False, height=False)
   background = PhotoImage(file='assets/backgrounds/ScreenInsertCode.png')
   resetButton = PhotoImage(file='assets/components/ButtonReset.png')
   backButton = PhotoImage(file='assets/components/BackButton.png')
@@ -580,6 +581,7 @@ def ScreenNewPassword(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
+  screen.resizable(width=False, height=False)
 
   background = PhotoImage(file='assets/backgrounds/ScreenNewPassword.png')
   concludeButton = PhotoImage(file='assets/components/ButtonConclude.png')
