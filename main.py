@@ -13,6 +13,12 @@ global userObjects
 # hidePassword = StringVar()
 userObjects = []
 
+def createScreens(title):
+  screen = Tk()
+  screen.title(title)
+  screen.geometry('1280x800')
+  return screen
+
 def signinScreen(title):
   def login():
     connection = db_connection_start()
@@ -40,9 +46,7 @@ def signinScreen(title):
 
     db_connection_close(connection)
 
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
+  screen = createScreens(title)
 
   hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/login.png')
@@ -210,9 +214,7 @@ def signupScreen(title):
       messagebox.showerror("ERRO", """Insira um email válido.""")
       input_email.delete(0, END)
       input_email_again.delete(0, END)
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
+  screen = createScreens(title)
 
   hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/signup.png')
@@ -245,9 +247,7 @@ def signupScreen(title):
 
 
 def homeScreen(title):
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
+  screen = createScreens(title)
 
   background = PhotoImage(file='assets/backgrounds/homeplanner.png')
   editButton = PhotoImage(file='assets/components/editButton.png')
@@ -338,9 +338,7 @@ def editScreen(title):
 
     db_connection_close(connection)
 
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
+  screen = createScreens(title)
 
   background = PhotoImage(file='assets/backgrounds/edit.png')
   confirmButton = PhotoImage(file='assets/components/confirmButton.png')
@@ -440,9 +438,7 @@ def editPassword(title):
       messagebox.showerror("ERRO", """Ops... ocorreu um erro! O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
     db_connection_close(connection)
 
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
+  screen = createScreens(title)
 
   background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
   restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
@@ -477,10 +473,7 @@ def ScreenInsertCode(title):
     else:
       messagebox.showerror("ERRO", """Código inválido""")
 
-
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
+  screen = createScreens(title)
 
   background = PhotoImage(file='assets/backgrounds/ScreenInsertCode.png')
   resetButton = PhotoImage(file='assets/components/ButtonReset.png')
@@ -545,10 +538,7 @@ def ScreenNewPassword(title):
     else:
       messagebox.showerror("ERRO", """As senhas não coincidem""")
 
-
-  screen = Tk()
-  screen.title(title)
-  screen.geometry('1280x800')
+  screen = createScreens(title)
 
   background = PhotoImage(file='assets/backgrounds/ScreenNewPassword.png')
   concludeButton = PhotoImage(file='assets/components/ButtonConclude.png')
