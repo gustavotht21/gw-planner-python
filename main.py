@@ -1,13 +1,13 @@
-import random
-from tkinter import *
-from tkinter import messagebox
 import time
+import random
 import smtplib
 import sqlite3
 import email.message
+from tkinter import *
 from connection import *
 from exceptions import *
 from classes import Usuario
+from tkinter import messagebox
 
 global userObjects
 userObjects = []
@@ -268,7 +268,7 @@ def editScreen(title):
     connection = db_connection_start()
     for row in range(12):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{Tsunday[row].get()}", diaSemana = "sunday" WHERE id = 1'
+        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday" WHERE id == 1'
       )
       db_user_insert(connection, SQL_insert_user)
 
