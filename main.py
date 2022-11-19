@@ -164,8 +164,7 @@ def signupScreen(title):
               (Ex: @, #, % etc.)""")
     else:
       SQL_insert_user = (
-        f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")'
-      )
+        f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")')
       db_user_insert(connection, SQL_insert_user)
 
       SQL_search_user = """SELECT idUser FROM usuarios
@@ -183,13 +182,19 @@ def signupScreen(title):
 
       messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
+            # idEvents integer PRIMARY KEY AUTOINCREMENT,
       SQL_create_table = """   
-                       CREATE TABLE IF NOT EXISTS eventos (                  
-                         id integer PRIMARY KEY AUTOINCREMENT,
-                         titulo text NOT NULL,
-                         diaSemana text NOT NULL
-                       ); """
+          CREATE TABLE IF NOT EXISTS eventos (                  
+            titulo text NOT NULL,
+            diaSemana text NOT NULL
+          ); """
       db_table_create(connection, SQL_create_table)
+      for row in range(12):
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","sunday") '
+        )
+        db_user_insert(connection, SQL_insert_user)
+
       db_connection_close(connection)
 
       time.sleep(0.5)
@@ -226,7 +231,6 @@ def signupScreen(title):
 
   screen.mainloop()
 
-
 def homeScreen(title):
   screen = createScreens(title)
 
@@ -257,65 +261,59 @@ def homeScreen(title):
   )
   button_signout.place(width=112, height=45, x=1090, y=722)
 
-  # connection = db_connection_start()
-  # for event in events:
-  #   print(f'{event[1]} | {event[2]}')
-  # db_connection_close(connection)
-
   screen.mainloop()
-
 
 def editScreen(title):
   def saveDatas():
     connection = db_connection_start()
-
-    SQL_create_table = """   
-          CREATE TABLE IF NOT EXISTS eventos (                  
-            id integer PRIMARY KEY AUTOINCREMENT,
-            titulo text NOT NULL,
-            diaSemana text NOT NULL
-          ); """
-    db_table_create(connection, SQL_create_table)
-
+    # SQL_create_table = """   
+    #       CREATE TABLE IF NOT EXISTS eventos (                  
+    #         id integer PRIMARY KEY AUTOINCREMENT,
+    #         titulo text NOT NULL,
+    #         diaSemana text NOT NULL
+    #       ); """
+    # db_table_create(connection, SQL_create_table)
+    # for row in range(12):
+    #   SQL_insert_user = (
+    #     f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","sunday") '
+    #   )
+    #   db_user_insert(connection, SQL_insert_user)
     for row in range(12):
+      print(sunday[row].get())
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday" WHERE id = {row}'
+        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday"'
       )
       db_user_insert(connection, SQL_insert_user)
 
-      SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{monday[row].get()}", diaSemana = "monday" WHERE id = {row}'
-      )
-      db_user_insert(connection, SQL_insert_user)
+      # SQL_insert_user = (
+      #   f'UPDATE eventos SET titulo = "{monday[row].get()}", diaSemana = "monday" '
+      # )
+      # db_user_insert(connection, SQL_insert_user)
 
-      SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{tuesday[row].get()}", diaSemana = "tuesday" WHERE id = {row}'
-      )
-      db_user_insert(connection, SQL_insert_user)
+      # SQL_insert_user = (
+      #   f'UPDATE eventos SET titulo = "{tuesday[row].get()}", diaSemana = "tuesday" '
+      # )
+      # db_user_insert(connection, SQL_insert_user)
 
-      SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{wednesday[row].get()}", diaSemana = "wednesday" WHERE id = {row}'
-      )
-      db_user_insert(connection, SQL_insert_user)
+      # SQL_insert_user = (
+      #   f'UPDATE eventos SET titulo = "{wednesday[row].get()}", diaSemana = "wednesday" '
+      # )
+      # db_user_insert(connection, SQL_insert_user)
 
-      SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{thursday[row].get()}", diaSemana = "thursday" WHERE id = {row}'
-      )
-      db_user_insert(connection, SQL_insert_user)
+      # SQL_insert_user = (
+      #   f'UPDATE eventos SET titulo = "{thursday[row].get()}", diaSemana = "thursday" '
+      # )
+      # db_user_insert(connection, SQL_insert_user)
 
-      SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{friday[row].get()}", diaSemana = "friday" WHERE id = {row}'
-      )
-      db_user_insert(connection, SQL_insert_user)
+      # SQL_insert_user = (
+      #   f'UPDATE eventos SET titulo = "{friday[row].get()}", diaSemana = "friday" '
+      # )
+      # db_user_insert(connection, SQL_insert_user)
 
-      SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{saturday[row].get()}", diaSemana = "saturday" WHERE id = {row}'
-      )
-      db_user_insert(connection, SQL_insert_user)
-
-
-    SQL_search_events = "SELECT * FROM eventos"
-    events = db_search_events(connection, SQL_search_events)
+      # SQL_insert_user = (
+      #   f'UPDATE eventos SET titulo = "{saturday[row].get()}", diaSemana = "saturday" '
+      # )
+      # db_user_insert(connection, SQL_insert_user)
 
     db_connection_close(connection)
   screen = createScreens(title)
@@ -332,16 +330,15 @@ def editScreen(title):
      homeScreen('Microsfot - Tarefas')])
   button_confirm.place(width=36.5, height=36.5, x=91, y=122)
 
-  sunday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  monday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  tuesday =  ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  wednesday =['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  thursday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  friday =   ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
-  saturday = ['---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---', '---']
+  sunday =   ['O', 'O','O', 'O', 'O', 'O','O','O', '', '', '', '']
+  monday =   ['',  'O', '', 'O', 'O', 'O', '','O', '', '', '', '']
+  tuesday =  ['O', 'O', '', 'O', 'O', 'O', '','O', '', '', '', '']
+  wednesday =['O', 'O','O', 'O','O', ' O', '','O', '', '', '', '']
+  thursday = ['O', 'O', '', 'O', 'O', 'O', '','O', '', '', '', '']
+  friday =   ['O', 'O', '', 'O', 'O', 'O', '','O', '', '', '', '']
+  saturday = ['O', 'O', '', 'O', 'O', 'O','O','O', '', '', '', '']
 
   y = [233, 233, 233, 233, 233, 233, 233]
-
   for index in range(12):
     sunday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     sunday[index].place(width=98, height=23, x=153, y=y[0])
@@ -378,7 +375,6 @@ def editScreen(title):
     y[6] += 33
 
   screen.mainloop()
-
 
 def editPassword(title):
   def enviarEmail(emailPessoa):
@@ -447,7 +443,6 @@ def editPassword(title):
 
   screen.mainloop()
 
-
 def ScreenInsertCode(title):
   def verificaCodigo():
     try:
@@ -484,7 +479,6 @@ def ScreenInsertCode(title):
   button_back.place(width=131, height=45, x=413, y=522)
 
   screen.mainloop()
-
 
 def ScreenNewPassword(title):
   def verificaSenhas():
