@@ -9,9 +9,6 @@ from exceptions import *
 from classes import Usuario
 from tkinter import messagebox
 
-global userObjects
-userObjects = []
-
 def createScreens(title):
   screen = Tk()
   screen.title(title)
@@ -29,13 +26,9 @@ def signinScreen(title):
     try:
       for user in users:
         if user[1] == input_email.get() and user[2] == input_password.get():
-          if not userObjects or len(userObjects) < len(users):
-            nameNewObjectUser = f'User{user[0]}'
-            nameNewObjectUser = Usuario(user[0], user[1], user[2])
-            userObjects.append(nameNewObjectUser)
           validado = True
-          userObjects[user[0] - 1].getUserInformations()
-          userObjects[user[0] - 1].realizarLogin(user[1], user[2])
+          usuarioAtual = Usuario(user[0], input_email.get(), input_password.get())
+          # usuarioAtual.getUserInformations()
           screen.destroy()
           homeScreen("Microsfot - Tarefas")
       if validado == False:
@@ -172,13 +165,9 @@ def signupScreen(title):
                LIMIT 1;"""
       user = db_search_user(connection, SQL_search_user)
 
-      lastUserId = user[0]
-      if lastUserId == None:
-        lastUserId = 0
-      nameNewObjectUser = f'User{lastUserId}'
-      nameNewObjectUser = Usuario(lastUserId, first_input, password)
-
-      userObjects.append(nameNewObjectUser)
+      # lastUserId = user[0]
+      # if lastUserId == None:
+      #   lastUserId = 0
 
       messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
