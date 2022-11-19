@@ -63,9 +63,8 @@ Você pode acessar o projeto [baixando o projeto](https://github.com/gustavotht2
 
 ## 👤 Autor(es)
 
-|         [<img src="https://github.com/gustavotht21.png" width=115><br><sub>Gustavo Casagrande Borges</sub>](https://github.com/gustavotht21)         |
-|:---:|
-| [<img src="https://github.com/WataNegreirosMonteiro.png" width=115><br><sub>Wata Negreiros Monteiro</sub>](https://github.com/WataNegreirosMonteiro) |
+|[<img src="https://github.com/gustavotht21.png" width=115><br><sub>Gustavo Casagrande Borges</sub>](https://github.com/gustavotht21)|[<img src="https://github.com/WataNegreirosMonteiro.png" width=115><br><sub>Wata Negreiros Monteiro</sub>](https://github.com/WataNegreirosMonteiro)|
+| :---: | :---: | 
 
 
 ## ✉️ Contato
