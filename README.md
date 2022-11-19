@@ -1,10 +1,18 @@
 # [PLANNER - PROJETO INTEGRADOR] 
 
+### Demonstração da tela de login
 <p align="center">
-  <img alt="Imagem da tela inicial do projeto" src="./assets/backgrounds/login.png" width="100%">
+  <img alt="Imagem da tela inicial do projeto" src="./assets/ReadmeFiles/login.png" width="100%">
 </p>
+
+### Demonstração da tela de cadastro
 <p align="center">
-  <img alt="Imagem da tela de tarefas do projeto" src="./assets/backgrounds/homeplanner.png" width="100%">
+  <img alt="Imagem da tela de tarefas do projeto" src="./assets/ReadmeFiles/signup.png" width="100%">
+</p>
+
+### Demonstração da tela inicial do planner do usuário
+<p align="center">
+  <img alt="Imagem da tela de tarefas do projeto" src="./assets/ReadmeFiles/home.png" width="100%">
 </p>
 
 ## Índice
