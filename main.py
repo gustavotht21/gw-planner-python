@@ -266,22 +266,9 @@ def homeScreen(title):
 def editScreen(title):
   def saveDatas():
     connection = db_connection_start()
-    # SQL_create_table = """   
-    #       CREATE TABLE IF NOT EXISTS eventos (                  
-    #         id integer PRIMARY KEY AUTOINCREMENT,
-    #         titulo text NOT NULL,
-    #         diaSemana text NOT NULL
-    #       ); """
-    # db_table_create(connection, SQL_create_table)
-    # for row in range(12):
-    #   SQL_insert_user = (
-    #     f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","sunday") '
-    #   )
-    #   db_user_insert(connection, SQL_insert_user)
     for row in range(12):
-      print(sunday[row].get())
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday" WHERE id = 1'
+        f'UPDATE eventos SET titulo = "{Tsunday[row].get()}", diaSemana = "sunday" WHERE id = 1'
       )
       db_user_insert(connection, SQL_insert_user)
 
