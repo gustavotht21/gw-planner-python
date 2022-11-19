@@ -62,17 +62,15 @@ def db_reset_password(connection, SQL_reset_password):
   except sqlite3.Error as e:
     print('[ERRO AO ALTERAR SENHA]', e)
 
-
 def db_search_events(connection, SQL_search_events):
   try:
     cursor = connection.cursor()
     events = cursor.execute(SQL_search_events)
     print("[EVENTOS BUSCADOS]")
+    # for event in events:
+    #   print(f'(EVENT 0:) {str(event[0])} | (EVENT 1:) {str(event[1])} | (EVENT 2:) {(event[2])}')
 
-    for event in events:
-      print(f'(EVENT 0:) {event[0]} | (EVENT 1:) {event[1]} | (EVENT 2:) {event[2]}')
   except sqlite3.Error as e:
     print("[ERRO AO BUSCAR EVENTO:] ", e)
   # finally:
-  #   return event
-    
+  #   return event    
