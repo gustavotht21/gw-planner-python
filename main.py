@@ -89,7 +89,6 @@ def signinScreen(title):
 
   screen.mainloop()
 
-
 def signupScreen(title):
   connection = db_connection_start()
   SQL_create_table = """
@@ -118,7 +117,7 @@ def signupScreen(title):
       first_input = input_email.get()
       second_input = input_email_again.get()
       password = input_password.get()
-      senhaForte = True
+      senhaForte = False
 
       for email in emails_in_database:
         if email[0] == first_input:
@@ -136,11 +135,13 @@ def signupScreen(title):
         raise ErrorSenhaMuitoPequena
       if password.upper() == password and password.lower() == password:
         raise ErrorSenhaSemLetra
+        
       for simbol in simbols:
-        if simbol not in list(password):
-          senhaForte = False
+        if simbol in list(password):
+          senhaForte = True
       if senhaForte != True:
         raise ErrorSenhaSemSimbolo
+        
     except ErrorEmailSemArroba:
       messagebox.showerror("ERRO", """Insira um email válido.""")
       input_email.delete(0, END)
@@ -189,44 +190,8 @@ def signupScreen(title):
                          diaSemana text NOT NULL
                        ); """
       db_table_create(connection, SQL_create_table)
-
-      for row in range(12):
-        SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sunday")'
-        )
-        db_user_insert(connection, SQL_insert_user)
-
-        SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "monday")'
-        )
-        db_user_insert(connection, SQL_insert_user)
-
-        SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "tuesday")'
-        )
-        db_user_insert(connection, SQL_insert_user)
-
-        SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "wednesday")'
-        )
-        db_user_insert(connection, SQL_insert_user)
-
-        SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "thursday")'
-        )
-        db_user_insert(connection, SQL_insert_user)
-
-        SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "friday")'
-        )
-        db_user_insert(connection, SQL_insert_user)
-
-        SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---", "sartuday")'
-        )
-        db_user_insert(connection, SQL_insert_user)
-
       db_connection_close(connection)
+
       time.sleep(0.5)
       screen.destroy(),
       signinScreen('Microsfot - Login')
