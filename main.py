@@ -1,12 +1,12 @@
 import random
 from tkinter import *
 from tkinter import messagebox
-from exceptions import *
 import time
 import smtplib
 import sqlite3
 import email.message
 from connection import *
+from exceptions import *
 from classes import Usuario
 
 global userObjects
@@ -182,9 +182,9 @@ def signupScreen(title):
 
       messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
-            # idEvents integer PRIMARY KEY AUTOINCREMENT,
       SQL_create_table = """   
-          CREATE TABLE IF NOT EXISTS eventos (                  
+          CREATE TABLE IF NOT EXISTS eventos (    
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             titulo text NOT NULL,
             diaSemana text NOT NULL
           ); """
@@ -281,7 +281,7 @@ def editScreen(title):
     for row in range(12):
       print(sunday[row].get())
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday"'
+        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday" WHERE id = 1'
       )
       db_user_insert(connection, SQL_insert_user)
 
