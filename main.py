@@ -10,7 +10,6 @@ from connection import *
 from classes import Usuario
 
 global userObjects
-# hidePassword = StringVar()
 userObjects = []
 
 def createScreens(title):
@@ -102,7 +101,6 @@ def signupScreen(title):
   db_table_create(connection, SQL_create_table)
 
   def verificationEmail():
-
 
     try:
       SQL_search_user = "SELECT email FROM usuarios"
@@ -248,7 +246,7 @@ def signupScreen(title):
   input_email_again = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_email_again.place(width=370, height=35, x=172, y=393)
 
-  input_password = Entry(screen, highlightthickness=0, textvariable=hidePassword, show="*", bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+  input_password = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_password.place(width=370, height=35, x=172, y=458)
 
   button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=finalizeButton, command=verificationEmail)
