@@ -357,14 +357,23 @@ def editPassword(title):
     global code
     code = random.randint(1111, 9999)
     corpoEmail = """
-        <p>Olá! O seu código de verificação é: {}</p>
+             <div style="border: 2px solid #d4deee; width: 600px; margin: 0 auto; border-radius: 10px;">
+                <div style="padding: 15px;">
+                  <p style="font-family: Arial; font-size: 1rem;" align="center">Olá! Aqui é o suporte do Planner Microsfot. Você solicitou uma <span style="color: #2563EB">recuperação de senha na sua conta no planner digital</span>. Seu código de verificação é:</p>
+                  <p style="font-family: Arial; font-size: 1rem; font-weight: bold;" align="center"> > > > {} < < < </p>
+        
+                  <p style="font-family: Arial; font-size: 1rem;" align="center">Se você não solicitou essa redefinição, <span style="color: #1E3A8A;">ignore este e-mail</span>. Sua senha permanecerá a mesma.</p>
+
+                  <p style="font-family: Arial; font-size: 1rem;" align="center">Email automático. Por favor não responda.</p>
+                </div>
+            </div>
         """.format(code)
 
     msg = email.message.Message()
-    msg['Subjecy'] = "Código para recuperação de senha"
-    msg['From'] = "suporteplanner321@gmail.com"
+    msg['Subject'] = "Código para recuperação de senha"
+    msg['From'] = "plannersuportecliente123@gmail.com"
     msg['To'] = "{}".format(emailPessoa)
-    password = "okuvnwqnrqkcpbmq"
+    password = "cxdzrbcjrsbxrzwe"
     msg.add_header('Content-Type', 'text/html')
     msg.set_payload(corpoEmail)
     s = smtplib.SMTP('smtp.gmail.com: 587')
@@ -379,8 +388,8 @@ def editPassword(title):
     validado = False
     try:
       for user in users:
-        if user[1] != input_email.get():
-          validado = False
+        if user[1] == input_email.get():
+          validado = True
       if validado == False:
         raise ErrorEmailInexistente
     except ErrorEmailInexistente:
