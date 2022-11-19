@@ -376,7 +376,7 @@ def editPassword(title):
     corpoEmail = """
              <div style="border: 2px solid #d4deee; width: 600px; margin: 0 auto; border-radius: 10px;">
                 <div style="padding: 15px;">
-                  <p style="font-family: Arial; font-size: 1rem;" align="center">Olá! Aqui é o suporte do Planner Microsfot. Você solicitou uma <span style="color: #2563EB">recuperação de senha na sua conta no planner digital.</span>. Seu código de verificação é:</p>
+                  <p style="font-family: Arial; font-size: 1rem;" align="center">Olá! Aqui é o suporte do Planner Microsfot. Você solicitou uma <span style="color: #2563EB">recuperação de senha na sua conta no planner digital</span>. Seu código de verificação é:</p>
                   <p style="font-family: Arial; font-size: 1rem; font-weight: bold;" align="center"> > > > {} < < < </p>
         
                   <p style="font-family: Arial; font-size: 1rem;" align="center">Se você não solicitou essa redefinição, <span style="color: #1E3A8A;">ingore este e-mail</span>. Sua senha permanecerá a mesma.</p>
