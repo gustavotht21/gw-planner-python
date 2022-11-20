@@ -43,7 +43,6 @@ def signinScreen(title):
         if user[1] == input_email.get() and user[2] == input_password.get():
           validado = True
           usuarioAtual = Usuario(user[0], input_email.get(), input_password.get())
-          # usuarioAtual.getUserInformations()
           screen.destroy()
           homeScreen("Microsfot - Tarefas")
       if validado == False:

@@ -3,26 +3,15 @@ class Usuario():
         self.idUser = idUser
         self.email = email
         self.senha = senha
-    def realizarLogin(self, emailLogin, senhaLogin):
-        if self.email == emailLogin and self.senha == senhaLogin:
-            return print("[LOGIN REALIZADO NA CLASSE USER]")
-        return print("[LOGIN FALHOU NA CLASSE USER]")
-    def recuperarSenha(self):
-        pass
-    def getUserInformations(self):
-        print(f"USER INFORMATIONS\nID: {self.idUser}\nEMAIL: {self.email}\nPASSWORD: {self.senha}")
-    def getEmailUser(self):
-        return self.email
-    def getSenhaUser(self):
-        return self.senha
-    def getIdUser(self):
-        return self.idUser
+    def AcessUserInformation(self):
+        userInformation = [self.idUser, self.email, self.senha]
+        return userInformation
 
 class Evento():
-    def __init__(self, titulo, diaSemana):
+    def __init__(self, idEvent, titulo, diaSemana):
+        self.idEvent = idEvent
         self.titulo = titulo
         self.diaSemana = diaSemana
-    def editarEventos(self):
-        pass
-    def salvarEventos(self):
-        pass
+    def acessEventInformation(self):
+        eventInformation = [self.idEvent, self.titulo, self.diaSemana]
+        return eventInformation
