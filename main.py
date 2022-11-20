@@ -178,9 +178,39 @@ def signupScreen(title):
             diaSemana text NOT NULL
           ); """
       db_table_create(connection, SQL_create_table)
-      for row in range(12):
+      for row in range(1, 13):
         SQL_insert_user = (
           f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","sunday") '
+        )
+        db_user_insert(connection, SQL_insert_user)
+      for row in range(13, 25):
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","monday") '
+        )
+        db_user_insert(connection, SQL_insert_user)
+      for row in range(25, 37):
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","tuesday") '
+        )
+        db_user_insert(connection, SQL_insert_user)
+      for row in range(37, 49):
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","wednesday") '
+        )
+        db_user_insert(connection, SQL_insert_user)
+      for row in range(49, 61):
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","thursday") '
+        )
+        db_user_insert(connection, SQL_insert_user)
+      for row in range(61, 73):
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","friday") '
+        )
+        db_user_insert(connection, SQL_insert_user)
+      for row in range(73, 85):
+        SQL_insert_user = (
+          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","saturday") '
         )
         db_user_insert(connection, SQL_insert_user)
 
@@ -255,41 +285,56 @@ def homeScreen(title):
 def editScreen(title):
   def saveDatas():
     connection = db_connection_start()
+    indexForUpdateDays = 0
     for row in range(1, 13):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday" WHERE id == {row}'
+        f'UPDATE eventos SET titulo = "{sunday[indexForUpdateDays].get()}", diaSemana = "sunday" WHERE id == {row}'
       )
       db_user_insert(connection, SQL_insert_user)
+      indexForUpdateDays += 1
+    indexForUpdateDays = 0
+    for row in range(13, 25):
+      SQL_insert_user = (
+        f'UPDATE eventos SET titulo = "{monday[indexForUpdateDays].get()}", diaSemana = "monday" WHERE id == {row}'
+      )
+      db_user_insert(connection, SQL_insert_user)
+      indexForUpdateDays += 1
+    indexForUpdateDays = 0
+    for row in range(25, 37):
+      SQL_insert_user = (
+        f'UPDATE eventos SET titulo = "{tuesday[indexForUpdateDays].get()}", diaSemana = "tuesday" WHERE id == {row}'
+      )
+      db_user_insert(connection, SQL_insert_user)
+      indexForUpdateDays += 1
+    indexForUpdateDays = 0
+    for row in range(37, 49):
+      SQL_insert_user = (
+        f'UPDATE eventos SET titulo = "{wednesday[indexForUpdateDays].get()}", diaSemana = "wednesday" WHERE id == {row}'
+      )
+      db_user_insert(connection, SQL_insert_user)
+      indexForUpdateDays += 1
+    indexForUpdateDays = 0
+    for row in range(49, 61):
+      SQL_insert_user = (
+        f'UPDATE eventos SET titulo = "{thursday[indexForUpdateDays].get()}", diaSemana = "thursday" WHERE id == {row}'
+      )
+      db_user_insert(connection, SQL_insert_user)
+      indexForUpdateDays += 1
+    indexForUpdateDays = 0
+    for row in range(61, 73):
+      SQL_insert_user = (
+        f'UPDATE eventos SET titulo = "{friday[indexForUpdateDays].get()}", diaSemana = "friday" WHERE id == {row}'
+      )
+      db_user_insert(connection, SQL_insert_user)
+      indexForUpdateDays += 1
+    indexForUpdateDays = 0
+    for row in range(73, 85):
+      SQL_insert_user = (
+        f'UPDATE eventos SET titulo = "{saturday[indexForUpdateDays].get()}", diaSemana = "saturday" WHERE id == {row}'
+      )
+      db_user_insert(connection, SQL_insert_user)
+      indexForUpdateDays += 1
 
-      # SQL_insert_user = (
-      #   f'UPDATE eventos SET titulo = "{monday[row].get()}", diaSemana = "monday" '
-      # )
-      # db_user_insert(connection, SQL_insert_user)
-
-      # SQL_insert_user = (
-      #   f'UPDATE eventos SET titulo = "{tuesday[row].get()}", diaSemana = "tuesday" '
-      # )
-      # db_user_insert(connection, SQL_insert_user)
-
-      # SQL_insert_user = (
-      #   f'UPDATE eventos SET titulo = "{wednesday[row].get()}", diaSemana = "wednesday" '
-      # )
-      # db_user_insert(connection, SQL_insert_user)
-
-      # SQL_insert_user = (
-      #   f'UPDATE eventos SET titulo = "{thursday[row].get()}", diaSemana = "thursday" '
-      # )
-      # db_user_insert(connection, SQL_insert_user)
-
-      # SQL_insert_user = (
-      #   f'UPDATE eventos SET titulo = "{friday[row].get()}", diaSemana = "friday" '
-      # )
-      # db_user_insert(connection, SQL_insert_user)
-
-      # SQL_insert_user = (
-      #   f'UPDATE eventos SET titulo = "{saturday[row].get()}", diaSemana = "saturday" '
-      # )
-      # db_user_insert(connection, SQL_insert_user)
 
     db_connection_close(connection)
   screen = createScreens(title)
@@ -316,38 +361,38 @@ def editScreen(title):
 
   y = [233, 233, 233, 233, 233, 233, 233]
   for index in range(1, 13):
-    sunday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-    sunday[index].place(width=98, height=23, x=153, y=y[0])
+    sunday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    sunday[index-1].place(width=98, height=23, x=153, y=y[0])
     y[0] += 33
 
   for index in range(1, 13):
-    monday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-    monday[index].place(width=98, height=23, x=299, y=y[1])
+    monday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    monday[index-1].place(width=98, height=23, x=299, y=y[1])
     y[1] += 33
 
   for index in range(1, 13):
-    tuesday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-    tuesday[index].place(width=98, height=23, x=445, y=y[2])
+    tuesday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    tuesday[index-1].place(width=98, height=23, x=445, y=y[2])
     y[2] += 33
 
   for index in range(1, 13):
-    wednesday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-    wednesday[index].place(width=98, height=23, x=591, y=y[3])
+    wednesday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    wednesday[index-1].place(width=98, height=23, x=591, y=y[3])
     y[3] += 33
 
   for index in range(1, 13):
-    thursday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-    thursday[index].place(width=98, height=23, x=737, y=y[4])
+    thursday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    thursday[index-1].place(width=98, height=23, x=737, y=y[4])
     y[4] += 33
 
   for index in range(1, 13):
-    friday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-    friday[index].place(width=98, height=23, x=883, y=y[5])
+    friday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    friday[index-1].place(width=98, height=23, x=883, y=y[5])
     y[5] += 33
 
   for index in range(1, 13):
-    saturday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-    saturday[index].place(width=98, height=23, x=1029, y=y[6])
+    saturday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    saturday[index-1].place(width=98, height=23, x=1029, y=y[6])
     y[6] += 33
 
   screen.mainloop()
