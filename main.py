@@ -1,3 +1,18 @@
+"""
+PLANNER - PROJETO INTEGRADOR
+
+----- Turma: -----
+2° Ano de Informática Vespertino
+
+----- Grupo: -----
+Escorpião
+
+----- Integrantes: -----
+Alexandre Borgs Fujita
+Gustavo Casagrande Borges
+Wata Negreiros Monteiro
+"""
+
 import time
 import random
 import smtplib
