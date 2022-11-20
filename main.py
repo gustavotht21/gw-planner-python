@@ -42,6 +42,7 @@ def signinScreen(title):
       for user in users:
         if user[1] == input_email.get() and user[2] == input_password.get():
           validado = True
+          global usuarioAtual
           usuarioAtual = Usuario(user[0], input_email.get(), input_password.get())
           screen.destroy()
           homeScreen("Microsfot - Tarefas")
@@ -174,60 +175,68 @@ def signupScreen(title):
         f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")')
       db_user_insert(connection, SQL_insert_user)
 
-      SQL_search_user = """SELECT idUser FROM usuarios
-               ORDER BY idUser DESC
-               LIMIT 1;"""
-      user = db_search_user(connection, SQL_search_user)
-
-      # lastUserId = user[0]
-      # if lastUserId == None:
-      #   lastUserId = 0
-
       messagebox.showinfo("SUCESSO", """Conta criada com sucesso""")
 
       SQL_create_table = """   
           CREATE TABLE IF NOT EXISTS eventos (    
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             titulo text NOT NULL,
-            diaSemana text NOT NULL
-          ); """
+            diaSemana text NOT NULL,
+            idEventUser INTEGER NOT NULL,
+            eventNumber INTEGER NOT NULL,
+            FOREIGN KEY (idEventUser)
+            REFERENCES usuarios (idUser)
+);"""
       db_table_create(connection, SQL_create_table)
+
+      SQL_search_user = """SELECT idUser FROM usuarios
+               ORDER BY idUser DESC
+               LIMIT 1;"""
+      user = db_search_user(connection, SQL_search_user)
+      idUserForCreateRegister = user[0][0]
+      indexEventNumber = 1
       for row in range(1, 13):
         SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","sunday") '
+          f'INSERT INTO eventos (titulo, diaSemana, idEventUser, eventNumber) VALUES ("---","sunday", {idUserForCreateRegister}, {indexEventNumber}) '
         )
         db_user_insert(connection, SQL_insert_user)
+        indexEventNumber += 1
       for row in range(13, 25):
         SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","monday") '
+          f'INSERT INTO eventos (titulo, diaSemana, idEventUser, eventNumber) VALUES ("---","monday", {idUserForCreateRegister}, {indexEventNumber}) '
         )
         db_user_insert(connection, SQL_insert_user)
+        indexEventNumber += 1
       for row in range(25, 37):
         SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","tuesday") '
+          f'INSERT INTO eventos (titulo, diaSemana, idEventUser, eventNumber) VALUES ("---","tuesday", {idUserForCreateRegister}, {indexEventNumber}) '
         )
         db_user_insert(connection, SQL_insert_user)
+        indexEventNumber += 1
       for row in range(37, 49):
         SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","wednesday") '
+          f'INSERT INTO eventos (titulo, diaSemana, idEventUser, eventNumber) VALUES ("---","wednesday", {idUserForCreateRegister}, {indexEventNumber}) '
         )
         db_user_insert(connection, SQL_insert_user)
+        indexEventNumber += 1
       for row in range(49, 61):
         SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","thursday") '
+          f'INSERT INTO eventos (titulo, diaSemana, idEventUser, eventNumber) VALUES ("---","thursday", {idUserForCreateRegister}, {indexEventNumber}) '
         )
         db_user_insert(connection, SQL_insert_user)
+        indexEventNumber += 1
       for row in range(61, 73):
         SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","friday") '
+          f'INSERT INTO eventos (titulo, diaSemana, idEventUser, eventNumber) VALUES ("---","friday", {idUserForCreateRegister}, {indexEventNumber}) '
         )
         db_user_insert(connection, SQL_insert_user)
+        indexEventNumber += 1
       for row in range(73, 85):
         SQL_insert_user = (
-          f'INSERT INTO eventos (titulo, diaSemana) VALUES ("---","saturday") '
+          f'INSERT INTO eventos (titulo, diaSemana, idEventUser, eventNumber) VALUES ("---","saturday", {idUserForCreateRegister}, {indexEventNumber}) '
         )
         db_user_insert(connection, SQL_insert_user)
-
+        indexEventNumber += 1
       db_connection_close(connection)
 
       time.sleep(0.5)
@@ -299,52 +308,55 @@ def homeScreen(title):
 def editScreen(title):
   def saveDatas():
     connection = db_connection_start()
+
+    idUsuarioAtual = (usuarioAtual.AcessUserInformation())[0]
+
     indexForUpdateDays = 0
     for row in range(1, 13):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{sunday[indexForUpdateDays].get()}", diaSemana = "sunday" WHERE id == {row}'
+        f'UPDATE eventos SET titulo = "{sunday[indexForUpdateDays].get()}", diaSemana = "sunday" WHERE eventNumber == {row} and idEventUser == {idUsuarioAtual}'
       )
       db_user_insert(connection, SQL_insert_user)
       indexForUpdateDays += 1
     indexForUpdateDays = 0
     for row in range(13, 25):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{monday[indexForUpdateDays].get()}", diaSemana = "monday" WHERE id == {row}'
+        f'UPDATE eventos SET titulo = "{monday[indexForUpdateDays].get()}", diaSemana = "monday" WHERE eventNumber == {row} and idEventUser == {idUsuarioAtual}'
       )
       db_user_insert(connection, SQL_insert_user)
       indexForUpdateDays += 1
     indexForUpdateDays = 0
     for row in range(25, 37):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{tuesday[indexForUpdateDays].get()}", diaSemana = "tuesday" WHERE id == {row}'
+        f'UPDATE eventos SET titulo = "{tuesday[indexForUpdateDays].get()}", diaSemana = "tuesday" WHERE eventNumber == {row} and idEventUser == {idUsuarioAtual}'
       )
       db_user_insert(connection, SQL_insert_user)
       indexForUpdateDays += 1
     indexForUpdateDays = 0
     for row in range(37, 49):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{wednesday[indexForUpdateDays].get()}", diaSemana = "wednesday" WHERE id == {row}'
+        f'UPDATE eventos SET titulo = "{wednesday[indexForUpdateDays].get()}", diaSemana = "wednesday" WHERE eventNumber == {row} and idEventUser == {idUsuarioAtual}'
       )
       db_user_insert(connection, SQL_insert_user)
       indexForUpdateDays += 1
     indexForUpdateDays = 0
     for row in range(49, 61):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{thursday[indexForUpdateDays].get()}", diaSemana = "thursday" WHERE id == {row}'
+        f'UPDATE eventos SET titulo = "{thursday[indexForUpdateDays].get()}", diaSemana = "thursday" WHERE eventNumber == {row} and idEventUser == {idUsuarioAtual}'
       )
       db_user_insert(connection, SQL_insert_user)
       indexForUpdateDays += 1
     indexForUpdateDays = 0
     for row in range(61, 73):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{friday[indexForUpdateDays].get()}", diaSemana = "friday" WHERE id == {row}'
+        f'UPDATE eventos SET titulo = "{friday[indexForUpdateDays].get()}", diaSemana = "friday" WHERE eventNumber == {row} and idEventUser == {idUsuarioAtual}'
       )
       db_user_insert(connection, SQL_insert_user)
       indexForUpdateDays += 1
     indexForUpdateDays = 0
     for row in range(73, 85):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{saturday[indexForUpdateDays].get()}", diaSemana = "saturday" WHERE id == {row}'
+        f'UPDATE eventos SET titulo = "{saturday[indexForUpdateDays].get()}", diaSemana = "saturday" WHERE eventNumber == {row} and idEventUser == {idUsuarioAtual}'
       )
       db_user_insert(connection, SQL_insert_user)
       indexForUpdateDays += 1
