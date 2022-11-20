@@ -255,9 +255,9 @@ def homeScreen(title):
 def editScreen(title):
   def saveDatas():
     connection = db_connection_start()
-    for row in range(12):
+    for row in range(1, 13):
       SQL_insert_user = (
-        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday" WHERE id == 1'
+        f'UPDATE eventos SET titulo = "{sunday[row].get()}", diaSemana = "sunday" WHERE id == {row}'
       )
       db_user_insert(connection, SQL_insert_user)
 
@@ -315,37 +315,37 @@ def editScreen(title):
   saturday = ['🟩', '🟩', '', '🟩', '🟩', '  🟩🟩','','', '', '', '', ''      ]
 
   y = [233, 233, 233, 233, 233, 233, 233]
-  for index in range(12):
+  for index in range(1, 13):
     sunday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     sunday[index].place(width=98, height=23, x=153, y=y[0])
     y[0] += 33
 
-  for index in range(12):
+  for index in range(1, 13):
     monday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     monday[index].place(width=98, height=23, x=299, y=y[1])
     y[1] += 33
 
-  for index in range(12):
+  for index in range(1, 13):
     tuesday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     tuesday[index].place(width=98, height=23, x=445, y=y[2])
     y[2] += 33
 
-  for index in range(12):
+  for index in range(1, 13):
     wednesday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     wednesday[index].place(width=98, height=23, x=591, y=y[3])
     y[3] += 33
 
-  for index in range(12):
+  for index in range(1, 13):
     thursday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     thursday[index].place(width=98, height=23, x=737, y=y[4])
     y[4] += 33
 
-  for index in range(12):
+  for index in range(1, 13):
     friday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     friday[index].place(width=98, height=23, x=883, y=y[5])
     y[5] += 33
 
-  for index in range(12):
+  for index in range(1, 13):
     saturday[index] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     saturday[index].place(width=98, height=23, x=1029, y=y[6])
     y[6] += 33
