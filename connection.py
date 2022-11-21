@@ -67,8 +67,7 @@ def db_search_events(connection, SQL_search_events):
     cursor = connection.cursor()
     events = cursor.execute(SQL_search_events)
     print("[EVENTOS BUSCADOS]")
-    # for event in events:
-    #   print(f'(EVENT 0:) {str(event[0])} | (EVENT 1:) {str(event[1])} | (EVENT 2:) {(event[2])}')
+    return events
 
   except sqlite3.Error as e:
     print("[ERRO AO BUSCAR EVENTO:] ", e)
