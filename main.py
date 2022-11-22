@@ -451,44 +451,44 @@ def editScreen(title):
 
   y = [233, 233, 233, 233, 233, 233, 233]
   for index in range(1, 13):
-    sunday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    sunday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=CENTER, foreground='#605672')
     sunday[index-1].place(width=98, height=23, x=153, y=y[0])
     sunday[index-1].insert(0, listTitles[indexForEvents])
     indexForEvents += 1
     y[0] += 33
   for index in range(1, 13):
-    monday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    monday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=CENTER, foreground='#605672')
     monday[index-1].place(width=98, height=23, x=299, y=y[1])
     monday[index-1].insert(0, listTitles[indexForEvents])
     indexForEvents += 1
     y[1] += 33
 
   for index in range(1, 13):
-    tuesday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    tuesday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=CENTER, foreground='#605672')
     tuesday[index-1].place(width=98, height=23, x=445, y=y[2])
     tuesday[index-1].insert(0, listTitles[indexForEvents])
     indexForEvents += 1
     y[2] += 33
   for index in range(1, 13):
-    wednesday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    wednesday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=CENTER, foreground='#605672')
     wednesday[index-1].place(width=98, height=23, x=591, y=y[3])
     wednesday[index-1].insert(0, listTitles[indexForEvents])
     indexForEvents += 1
     y[3] += 33
   for index in range(1, 13):
-    thursday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    thursday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=CENTER, foreground='#605672')
     thursday[index-1].place(width=98, height=23, x=737, y=y[4])
     thursday[index-1].insert(0, listTitles[indexForEvents])
     indexForEvents += 1
     y[4] += 33
   for index in range(1, 13):
-    friday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    friday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=CENTER, foreground='#605672')
     friday[index-1].place(width=98, height=23, x=883, y=y[5])
     friday[index-1].insert(0, listTitles[indexForEvents])
     indexForEvents += 1
     y[5] += 33
   for index in range(1, 13):
-    saturday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+    saturday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=CENTER, foreground='#605672')
     saturday[index-1].place(width=98, height=23, x=1029, y=y[6])
     saturday[index-1].insert(0, listTitles[indexForEvents])
     indexForEvents += 1
