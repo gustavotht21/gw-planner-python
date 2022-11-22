@@ -43,6 +43,7 @@ def signinScreen(title):
         if user[1] == input_email.get() and user[2] == input_password.get():
           validado = True
           global usuarioAtual
+          global userOn
           usuarioAtual = Usuario(user[0], input_email.get(), input_password.get())
           screen.destroy()
           homeScreen("Microsfot - Tarefas")
@@ -102,6 +103,7 @@ def signupScreen(title):
   SQL_create_table = """
     CREATE TABLE IF NOT EXISTS usuarios (                  
     idUser integer PRIMARY KEY AUTOINCREMENT,
+
     email text NOT NULL,
     senha text NOT NULL
     ); """
@@ -184,9 +186,10 @@ def signupScreen(title):
             diaSemana text NOT NULL,
             idEventUser INTEGER NOT NULL,
             eventNumber INTEGER NOT NULL,
+
             FOREIGN KEY (idEventUser)
             REFERENCES usuarios (idUser)
-);"""
+          );"""
       db_table_create(connection, SQL_create_table)
 
       SQL_search_user = """SELECT idUser FROM usuarios
@@ -303,7 +306,54 @@ def homeScreen(title):
   )
   button_signout.place(width=112, height=45, x=1090, y=722)
 
+  connection = db_connection_start()
+
+  idUsuarioAtual = (usuarioAtual.AcessUserInformation())[0]
+  SQL_search_events = f'SELECT titulo FROM eventos where idEventUser == {idUsuarioAtual}'
+  events = db_search_events(connection, SQL_search_events)
+
+  labels_texts = []
+  for event in events:
+    labels_texts.append(event[0])
+  
+  y = [233, 233, 233, 233, 233, 233, 233]
+  for index in range(12):
+    sunday_label = Label(screen, text=labels_texts[index], background='white')
+    sunday_label.place(width=98, height=23, x=153, y=y[0])
+    y[0] += 33
+
+  for index in range(12,24):
+    monday_label = Label(screen, text=labels_texts[index], background='white')
+    monday_label.place(width=98, height=23, x=299, y=y[1])
+    y[1] += 33
+
+  for index in range(24,36):
+    tuesday_label = Label(screen, text=labels_texts[index], background='white')
+    tuesday_label.place(width=98, height=23, x=445, y=y[2])
+    y[2] += 33
+
+  for index in range(36,48):
+    wednesday_label = Label(screen, text=labels_texts[index], background='white')
+    wednesday_label.place(width=98, height=23, x=591, y=y[3])
+    y[3] += 33
+
+  for index in range(48,60):
+    thursday_label = Label(screen, text=labels_texts[index], background='white')
+    thursday_label.place(width=98, height=23, x=737, y=y[4])
+    y[4] += 33
+
+  for index in range(60,72):
+    friday_label = Label(screen, text=labels_texts[index], background='white')
+    friday_label.place(width=98, height=23, x=883, y=y[5])
+    y[5] += 33
+
+  for index in range(72,84):
+    saturday_label = Label(screen, text=labels_texts[index], background='white')
+    saturday_label.place(width=98, height=23, x=1029, y=y[6])
+    y[6] += 33
+
   screen.mainloop()
+  db_connection_close(connection)
 
 def editScreen(title):
   def saveDatas():
@@ -384,43 +434,65 @@ def editScreen(title):
   thursday = ['🟩', '🟩', '', '🟩', '🟩', '🟩', '🟩','', '', '', '', ''       ]
   friday =   ['🟩', '🟩', '', '🟩', '🟩', '🟩', '🟩','', '', '', '', ''       ]
   saturday = ['🟩', '🟩', '', '🟩', '🟩', '  🟩🟩','','', '', '', '', ''      ]
+  connection = db_connection_start()
+
+  idUsuarioAtual = (usuarioAtual.AcessUserInformation())[0]
+  listTitles = []
+
+  SQL_search_events = f'SELECT * FROM eventos where idEventUser == {idUsuarioAtual}'
+  events = db_search_events(connection, SQL_search_events)
+
+  for event in events:
+    print(event[1])
+    listTitles.append(event[1])
+
+  indexForEvents = 0
+  db_connection_close(connection)
 
   y = [233, 233, 233, 233, 233, 233, 233]
   for index in range(1, 13):
     sunday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     sunday[index-1].place(width=98, height=23, x=153, y=y[0])
+    sunday[index-1].insert(0, listTitles[indexForEvents])
+    indexForEvents += 1
     y[0] += 33
-
   for index in range(1, 13):
     monday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     monday[index-1].place(width=98, height=23, x=299, y=y[1])
+    monday[index-1].insert(0, listTitles[indexForEvents])
+    indexForEvents += 1
     y[1] += 33
 
   for index in range(1, 13):
     tuesday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     tuesday[index-1].place(width=98, height=23, x=445, y=y[2])
+    tuesday[index-1].insert(0, listTitles[indexForEvents])
+    indexForEvents += 1
     y[2] += 33
-
   for index in range(1, 13):
     wednesday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     wednesday[index-1].place(width=98, height=23, x=591, y=y[3])
+    wednesday[index-1].insert(0, listTitles[indexForEvents])
+    indexForEvents += 1
     y[3] += 33
-
   for index in range(1, 13):
     thursday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     thursday[index-1].place(width=98, height=23, x=737, y=y[4])
+    thursday[index-1].insert(0, listTitles[indexForEvents])
+    indexForEvents += 1
     y[4] += 33
-
   for index in range(1, 13):
     friday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     friday[index-1].place(width=98, height=23, x=883, y=y[5])
+    friday[index-1].insert(0, listTitles[indexForEvents])
+    indexForEvents += 1
     y[5] += 33
-
   for index in range(1, 13):
     saturday[index-1] = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
     saturday[index-1].place(width=98, height=23, x=1029, y=y[6])
+    saturday[index-1].insert(0, listTitles[indexForEvents])
+    indexForEvents += 1
     y[6] += 33
-
   screen.mainloop()
 
 def editPassword(title):
