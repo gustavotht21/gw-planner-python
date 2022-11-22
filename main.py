@@ -498,7 +498,7 @@ def editScreen(title):
 def editPassword(title):
   def enviarEmail(emailPessoa):
     global code
-    code = random.randint(1111, 9999)
+    code = random.randint(100000, 999999)
     corpoEmail = """
              <div style="border: 2px solid #d4deee; width: 600px; margin: 0 auto; border-radius: 10px;">
                 <div style="padding: 15px;">
@@ -516,7 +516,7 @@ def editPassword(title):
     msg['Subject'] = "Código para recuperação de senha"
     msg['From'] = "plannersuportecliente123@gmail.com"
     msg['To'] = "{}".format(emailPessoa)
-    password = "cxdzrbcjrsbxrzwe"
+    password = "owyqxpganiwvnjxv"
     msg.add_header('Content-Type', 'text/html')
     msg.set_payload(corpoEmail)
     s = smtplib.SMTP('smtp.gmail.com: 587')
@@ -614,7 +614,7 @@ def ScreenNewPassword(title):
       simbols = [
         '@', '#', '$', '%', '&',
       ]
-      password = input_NewPassword
+      password = input_NewPassword.get()
       senhaForte = False
       if input_NewPassword.get() != input_NewPasswordAgain.get():
         raise ErrorSenhasNaoCoincidem
@@ -623,8 +623,8 @@ def ScreenNewPassword(title):
       if password.upper() == password and password.lower() == password:
         raise ErrorSenhaSemLetra
       for simbol in simbols:
-        if simbol not in list(password):
-          senhaForte = False
+        if simbol in list(password):
+          senhaForte = True
       if senhaForte != True:
         raise ErrorSenhaSemSimbolo
 
