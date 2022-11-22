@@ -311,12 +311,49 @@ def homeScreen(title):
   idUsuarioAtual = (usuarioAtual.AcessUserInformation())[0]
   SQL_search_events = f'SELECT titulo FROM eventos where idEventUser == {idUsuarioAtual}'
   events = db_search_events(connection, SQL_search_events)
-  # print(events)
+
+  labels_texts = []
   for event in events:
-    print(f'EVENTO: {event}')
+    labels_texts.append(event[0])
+  
+  y = [233, 233, 233, 233, 233, 233, 233]
+  for index in range(12):
+    sunday_label = Label(screen, text=labels_texts[index], background='white')
+    sunday_label.place(width=98, height=23, x=153, y=y[0])
+    y[0] += 33
+
+  for index in range(12,24):
+    monday_label = Label(screen, text=labels_texts[index], background='white')
+    monday_label.place(width=98, height=23, x=299, y=y[1])
+    y[1] += 33
+
+  for index in range(24,36):
+    tuesday_label = Label(screen, text=labels_texts[index], background='white')
+    tuesday_label.place(width=98, height=23, x=445, y=y[2])
+    y[2] += 33
+
+  for index in range(36,48):
+    wednesday_label = Label(screen, text=labels_texts[index], background='white')
+    wednesday_label.place(width=98, height=23, x=591, y=y[3])
+    y[3] += 33
+
+  for index in range(48,60):
+    thursday_label = Label(screen, text=labels_texts[index], background='white')
+    thursday_label.place(width=98, height=23, x=737, y=y[4])
+    y[4] += 33
+
+  for index in range(60,72):
+    friday_label = Label(screen, text=labels_texts[index], background='white')
+    friday_label.place(width=98, height=23, x=883, y=y[5])
+    y[5] += 33
+
+  for index in range(72,84):
+    saturday_label = Label(screen, text=labels_texts[index], background='white')
+    saturday_label.place(width=98, height=23, x=1029, y=y[6])
+    y[6] += 33
+
   screen.mainloop()
   db_connection_close(connection)
-
 
 def editScreen(title):
   def saveDatas():
