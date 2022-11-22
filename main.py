@@ -29,6 +29,8 @@ def createScreens(title):
   screen.title(title)
   screen.geometry('1280x800')
   screen.resizable(width=False, height=False)
+  iconScreen = PhotoImage(file="./assets/components/IconScreen.png")
+  screen.iconphoto(False, iconScreen)
   return screen
 
 def signinScreen(title):
