@@ -65,7 +65,7 @@ def signinScreen(title):
   screen = createScreens(title)
 
   hidePassword = StringVar()
-  background = PhotoImage(file='assets/backgrounds/login.png')
+  background = PhotoImage(file='assets/backgrounds/loginSreen.png')
   signinButton = PhotoImage(file='assets/components/signinButton.png')
   signupButton = PhotoImage(file='assets/components/signupButton.png')
   forgetButton = PhotoImage(file='assets/components/ButtonForgetPassword.png')
@@ -250,7 +250,7 @@ def signupScreen(title):
 
   screen = createScreens(title)
   hidePassword = StringVar()
-  background = PhotoImage(file='assets/backgrounds/signup.png')
+  background = PhotoImage(file='assets/backgrounds/signupScreen.png')
   finalizeButton = PhotoImage(file='assets/components/finalizeButton.png')
   backButton = PhotoImage(file='assets/components/BackButton.png')
 
@@ -281,7 +281,7 @@ def signupScreen(title):
 def homeScreen(title):
   screen = createScreens(title)
 
-  background = PhotoImage(file='assets/backgrounds/homeplanner.png')
+  background = PhotoImage(file='assets/backgrounds/homeScreen.png')
   editButton = PhotoImage(file='assets/components/editButton.png')
   signoutButton = PhotoImage(file='assets/components/signOutButton.png')
 
@@ -417,7 +417,7 @@ def editScreen(title):
     db_connection_close(connection)
   screen = createScreens(title)
 
-  background = PhotoImage(file='assets/backgrounds/edit.png')
+  background = PhotoImage(file='assets/backgrounds/editScreen.png')
   confirmButton = PhotoImage(file='assets/components/confirmButton.png')
 
   label = Label(screen, image=background)
