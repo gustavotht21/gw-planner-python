@@ -127,12 +127,12 @@ def signupScreen(title):
       simbols = [
         '@', '#', '$', '%', '&',
       ]
-      email_verification = False
+      email_verification = True
 
       first_input = input_email.get()
       second_input = input_email_again.get()
       password = input_password.get()
-      senhaForte = True
+      senhaForte = False
 
       for email in emails_in_database:
         if email[0] == first_input:
@@ -155,7 +155,7 @@ def signupScreen(title):
       for simbol in simbols:
         if simbol in list(password):
           senhaForte = True
-      if senhaForte != True:
+      if senhaForte == False:
         raise ErrorSenhaSemSimbolo
         
     except ErrorEmailSemArroba:
