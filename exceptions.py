@@ -17,6 +17,9 @@ class ErrorSenhaMuitoPequena(Exception):
 class ErrorSenhaSemLetra(Exception):
     pass
 
+class ErrorSenhaSemNumero(Exception):
+    pass
+
 class ErrorSenhaSemSimbolo(Exception):
     pass
 
