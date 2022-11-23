@@ -132,7 +132,7 @@ def signupScreen(title):
       first_input = input_email.get()
       second_input = input_email_again.get()
       password = input_password.get()
-      senhaForte = False
+      senhaForte = True
 
       for email in emails_in_database:
         if email[0] == first_input:
@@ -142,7 +142,7 @@ def signupScreen(title):
         raise ErrorEmailSemArroba
       if first_input.split('@')[1] not in emails_extensios:
         raise ErrorExtensaoEmailInvalido
-      if email_verification == True:
+      if email_verification == False:
         raise ErrorEmailJaUsado
       if first_input != second_input:
         raise ErrorEmailsDiferentes
