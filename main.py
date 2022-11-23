@@ -150,7 +150,6 @@ def signupScreen(title):
         raise ErrorSenhaMuitoPequena
       if password.upper() == password or password.lower() == password:
         raise ErrorSenhaSemLetra
-
       if bool(re.search(r'\d', password)) == False:
         raise ErrorSenhaSemNumero
       for simbol in simbols:
@@ -628,8 +627,10 @@ def ScreenNewPassword(title):
         raise ErrorSenhasNaoCoincidem
       if len(password) < 8:
         raise ErrorSenhaMuitoPequena
-      if password.upper() == password and password.lower() == password:
+      if password.upper() == password or password.lower() == password:
         raise ErrorSenhaSemLetra
+      if bool(re.search(r'\d', password)) == False:
+        raise ErrorSenhaSemNumero
       for simbol in simbols:
         if simbol in list(password):
           senhaForte = True
@@ -642,6 +643,8 @@ def ScreenNewPassword(title):
       messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
     except ErrorSenhaSemLetra:
       messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+    except ErrorSenhaSemNumero:
+      messagebox.showerror("ERRO", "Senha muito fraca: Insira algum número")
     except ErrorSenhaSemSimbolo:
       messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial (Ex: @, #, % etc.)""")
     else:
