@@ -16,6 +16,7 @@ Wata Negreiros Monteiro
 import time
 import random
 import smtplib
+import re
 import sqlite3
 import email.message
 from tkinter import *
@@ -64,6 +65,16 @@ def signinScreen(title):
     db_connection_close(connection)
   screen = createScreens(title)
 
+  connection = db_connection_start()
+  SQL_create_table = """
+      CREATE TABLE IF NOT EXISTS usuarios (                  
+      idUser integer PRIMARY KEY AUTOINCREMENT,
+
+      email text NOT NULL,
+      senha text NOT NULL
+      ); """
+  db_table_create(connection, SQL_create_table)
+
   hidePassword = StringVar()
   background = PhotoImage(file='assets/backgrounds/loginSreen.png')
   signinButton = PhotoImage(file='assets/components/signinButton.png')
@@ -102,14 +113,6 @@ def signinScreen(title):
 
 def signupScreen(title):
   connection = db_connection_start()
-  SQL_create_table = """
-    CREATE TABLE IF NOT EXISTS usuarios (                  
-    idUser integer PRIMARY KEY AUTOINCREMENT,
-
-    email text NOT NULL,
-    senha text NOT NULL
-    ); """
-  db_table_create(connection, SQL_create_table)
 
   def verificationEmail():
 
@@ -145,9 +148,11 @@ def signupScreen(title):
         raise ErrorEmailsDiferentes
       if len(password) < 8:
         raise ErrorSenhaMuitoPequena
-      if password.upper() == password and password.lower() == password:
+      if password.upper() == password or password.lower() == password:
         raise ErrorSenhaSemLetra
-        
+
+      if bool(re.search(r'\d', password)) == False:
+        raise ErrorSenhaSemNumero
       for simbol in simbols:
         if simbol in list(password):
           senhaForte = True
@@ -155,25 +160,26 @@ def signupScreen(title):
         raise ErrorSenhaSemSimbolo
         
     except ErrorEmailSemArroba:
-      messagebox.showerror("ERRO", """Insira um email válido.""")
+      messagebox.showerror("ERRO", "Insira um email válido.")
       input_email.delete(0, END)
       input_email_again.delete(0, END)
     except ErrorExtensaoEmailInvalido:
-      messagebox.showerror("ERRO", """Insira um email válido.""")
+      messagebox.showerror("ERRO", "Insira um email válido.")
       input_email.delete(0, END)
       input_email_again.delete(0, END)
 
     except ErrorEmailJaUsado:
-      messagebox.showerror("ERRO", """Email já cadastrado""")
+      messagebox.showerror("ERRO", "Email já cadastrado")
     except ErrorEmailsDiferentes:
-      messagebox.showerror("ERRO", """Os emails devem ser iguais""")
+      messagebox.showerror("ERRO", "Os emails devem ser iguais")
     except ErrorSenhaMuitoPequena:
-      messagebox.showerror("ERRO", """Senha muito fraca: Senha muito pequena""")
+      messagebox.showerror("ERRO", "Senha muito fraca: Senha muito pequena")
     except ErrorSenhaSemLetra:
-      messagebox.showerror("ERRO", """Senha muito fraca: Insira letras maiúsculas e minúsculas""")
+      messagebox.showerror("ERRO", "Senha muito fraca: Insira letras maiúsculas e minúsculas")
+    except ErrorSenhaSemNumero:
+      messagebox.showerror("ERRO", "Senha muito fraca: Insira algum número")
     except ErrorSenhaSemSimbolo:
-      messagebox.showerror("ERRO", """Senha muito fraca: Insira algum símbolo especial
-              (Ex: @, #, % etc.)""")
+      messagebox.showerror("ERRO", "Senha muito fraca: Insira algum símbolo especial (Ex: @, #, % etc.)")
     else:
       SQL_insert_user = (
         f'INSERT INTO usuarios (email, senha) VALUES ("{first_input}","{password}")')
