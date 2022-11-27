@@ -26,7 +26,7 @@
 * [Contato](#%EF%B8%8F-contato)
 
 ## ⚙️ Introdução 
-O sistema Cacicada é um projeto multidiciplinar que envolve as matérias de Linguagem de programação, Programação orientada a Objetos, Banco de dados de Fundamentos de análises de sistema. O objetivo é a criação de um planner de agendamentos de atividades para a organização pessoal.  
+O sistema Microsfot é um projeto multidiciplinar que envolve as matérias de Linguagem de programação, Programação orientada a Objetos, Banco de dados de Fundamentos de análises de sistema. O objetivo é a criação de um planner de agendamentos de atividades para a organização pessoal.  
 
 
 ## 🖥️ Tecnologias utilizadas
