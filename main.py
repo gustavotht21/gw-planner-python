@@ -106,7 +106,7 @@ def signinScreen(title):
     screen.destroy(),
     editPassword("Microsfot - Redefinir senha")
   ])
-  button_forget.place(width=146, height=17, x=401, y=495)
+  button_forget.place(width=146, height=17, x=401, y=496)
 
 
   screen.mainloop()
@@ -289,6 +289,7 @@ def homeScreen(title):
   background = PhotoImage(file='assets/backgrounds/homeScreen.png')
   editButton = PhotoImage(file='assets/components/editButton.png')
   signoutButton = PhotoImage(file='assets/components/signOutButton.png')
+  informationButton = PhotoImage(file="assets/components/informationButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -298,20 +299,19 @@ def homeScreen(title):
      editScreen('Microsfot - Editar Tarefas')])
   button_edit.place(width=36.5, height=36.5, x=91, y=122)
 
-  button_signout = Button(screen, highlightthickness=0, bd=1, background='#749FE4', image=signoutButton, command=lambda:
+  button_signout = Button(screen, highlightthickness=0, bd=0, background='#719DE4', image=signoutButton, command=lambda:
   [
       screen.destroy(),
       signinScreen('Microsfot - Tela Inicial')
   ])
-  button_signout.place(width=112, height=45, x=1090, y=722)
+  button_signout.place(width=108, height=41, x=1092, y=724)
 
-
-  button_signout = Button(screen, highlightthickness=0, bd=1, background='#749FE4', image=signoutButton, command=lambda: [
-      screen.destroy(),
-      signinScreen('Microsfot - Tela Inicial')
+  button_information = Button(screen, highlightthickness=0, bd=0, background='#4B84E1', image=informationButton, command=lambda: [
+    screen.destroy(),
+    userInformationScreen('Microsfot - Informações pessoais')
     ]
   )
-  button_signout.place(width=112, height=45, x=1090, y=722)
+  button_information.place(width=234, height=41, x=81, y=724)
 
   connection = db_connection_start()
 
@@ -572,7 +572,83 @@ def editPassword(title):
     screen.destroy(),
     signinScreen('Microsfot - Tela Inicial')
   ])
-  button_back.place(width=130, height=45, x=414, y=553)
+  button_back.place(width=130, height=45, x=414, y=552)
+
+
+
+  screen.mainloop()
+
+def editPasswordInformation(title):
+  def enviarEmail(emailPessoa):
+    global code
+    code = random.randint(100000, 999999)
+    corpoEmail = """
+             <div style="border: 2px solid #d4deee; width: 600px; margin: 0 auto; border-radius: 10px;">
+                <div style="padding: 15px;">
+                  <p style="font-family: Arial; font-size: 1rem;" align="center">Olá! Aqui é o suporte do Planner Microsfot. Você solicitou uma <span style="color: #2563EB">recuperação de senha na sua conta no planner digital</span>. Seu código de verificação é:</p>
+                  <p style="font-family: Arial; font-size: 1rem; font-weight: bold;" align="center"> > > > {} < < < </p>
+        
+                  <p style="font-family: Arial; font-size: 1rem;" align="center">Se você não solicitou essa redefinição, <span style="color: #1E3A8A;">ignore este e-mail</span>. Sua senha permanecerá a mesma.</p>
+
+                  <p style="font-family: Arial; font-size: 1rem;" align="center">Email automático. Por favor não responda.</p>
+                </div>
+            </div>
+        """.format(code)
+
+    msg = email.message.Message()
+    msg['Subject'] = "Código para recuperação de senha"
+    msg['From'] = "plannersuportecliente123@gmail.com"
+    msg['To'] = "{}".format(emailPessoa)
+    password = "owyqxpganiwvnjxv"
+    msg.add_header('Content-Type', 'text/html')
+    msg.set_payload(corpoEmail)
+    s = smtplib.SMTP('smtp.gmail.com: 587')
+    s.starttls()
+
+    s.login(msg['From'], password)
+    s.sendmail(msg['From'], msg['To'], msg.as_string().encode('utf-8'))
+  def verificarEmail():
+    connection = db_connection_start()
+    SQL_search_user = "SELECT * FROM usuarios"
+    users = db_search_user(connection, SQL_search_user)
+    validado = False
+    try:
+      for user in users:
+        if user[1] == input_email.get():
+          validado = True
+      if validado == False:
+        raise ErrorEmailInexistente
+    except ErrorEmailInexistente:
+      messagebox.showerror("ERRO",
+                           """Ops... ocorreu um erro! O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
+    else:
+      enviarEmail(input_email.get())
+      global emailParaRedefinicao
+      emailParaRedefinicao = str(input_email.get())
+      screen.destroy()
+      ScreenInsertCode("Microsfot - Insira o código")
+    db_connection_close(connection)
+
+  screen = createScreens(title)
+  background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
+  restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
+  backButton = PhotoImage(file='assets/components/BackButton.png')
+
+  label = Label(screen, image=background)
+  label.pack()
+
+  input_email = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
+  input_email.place(width=370, height=32, x=172, y=353)
+
+  button_restore = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=restoreButton, command=verificarEmail)
+  button_restore.place(width=223, height=45, x=170, y=552)
+
+
+  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda: [
+    screen.destroy(),
+    userInformationScreen('Microsfot - Suas Informações')
+  ])
+  button_back.place(width=130, height=45, x=414, y=552)
 
 
 
@@ -685,5 +761,48 @@ def ScreenNewPassword(title):
 
 
   label.mainloop()
+
+def userInformationScreen(title):
+  screen = createScreens(title)
+
+  information = usuarioAtual.AcessUserInformation()
+
+
+  background = PhotoImage(file='assets/backgrounds/PersonalInformationScreen.png')
+  backButton = PhotoImage(file='assets/components/BackButton.png')
+  resetButton = PhotoImage(file='assets/components/RedefinirButton.png')
+
+  label = Label(screen, image=background)
+  label.pack()
+
+  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda:
+  [
+      screen.destroy(),
+      homeScreen('Microsfot - Suas atividades')
+  ])
+  button_back.place(width=131, height=45, x=480, y=601)
+
+
+  UserName = Label(screen, text="BeautifulUser", font=('Inter', 12), background="#FFFFFF")
+  UserName.place(x=168, y=351)
+
+  UserEmail = Label(screen, text=information[1], font=('Inter', 12), background="#FFFFFF")
+  UserEmail.place(x=168, y=429)
+
+  password = "********"
+
+  userPassword = Label(screen, text=password, font=('Inter', 12), background="#FFFFFF")
+  userPassword.place(x=168, y=507)
+
+  reset_Button = Button(screen, highlightthickness=0, bd=0, background='#FFFFFF', image=resetButton, command=lambda: [
+    screen.destroy(),
+    editPasswordInformation("Microsfot - Redefinir senha")
+  ])
+  reset_Button.place(x=170, y=531)
+
+
+
+  screen.mainloop()
+
 
 signinScreen('Microsfot - Tela Inicial')
