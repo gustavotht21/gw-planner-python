@@ -19,20 +19,33 @@ import smtplib
 import re
 import sqlite3
 import email.message
+import tkinter
 from tkinter import *
 from connection import *
 from exceptions import *
 from classes import Usuario
 from tkinter import messagebox
 
+global language
+language = 0
+
+
 def createScreens(title):
   screen = Tk()
   screen.title(title)
   screen.geometry('1280x800')
   screen.resizable(width=False, height=False)
-  iconScreen = PhotoImage(file="./assets/components/IconScreen.png")
+  iconScreen = PhotoImage(file="assets/components/PortugueseComponents/IconScreen.png")
   screen.iconphoto(False, iconScreen)
   return screen
+
+def selectLanguage(name: str, type: str, item: str):
+  typeTitle = type.title()
+  if language == 0:
+    name = PhotoImage(file=f"assets/{type}/Portuguese{typeTitle}/{item}")
+  else:
+    name = PhotoImage(file=f"assets/{type}/English{typeTitle}/{item}")
+  return name
 
 def signinScreen(title):
   def login():
@@ -76,11 +89,10 @@ def signinScreen(title):
   db_table_create(connection, SQL_create_table)
 
   hidePassword = StringVar()
-  background = PhotoImage(file='assets/backgrounds/loginScreen.png')
-  signinButton = PhotoImage(file='assets/components/signinButton.png')
-  signupButton = PhotoImage(file='assets/components/signupButton.png')
-  forgetButton = PhotoImage(file='assets/components/ButtonForgetPassword.png')
-
+  background = selectLanguage("background", "backgrounds", "loginScreen.png")
+  signinButton = selectLanguage("signinButton", "components", "signinButton.png")
+  signupButton = selectLanguage("signupButton", "components", "signupButton.png")
+  forgetButton = selectLanguage("forgetButton", "components", "ButtonForgetPassword.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -92,21 +104,25 @@ def signinScreen(title):
   input_password.place(width=370, height=35, x=172, y=450)
 
   button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=signinButton, command=login)
-  button_signin.place(width=135, height=40, x=171, y=529)
+  button_signin.place(width=129, height=43, x=175, y=527)
 
   button_signup = Button(screen, highlightthickness=0, bd=0, background='white', image=signupButton, command=lambda:
   [
       screen.destroy(),
       signupScreen('Microsfot - Cadastro')
   ])
-  button_signup.place(width=194, height=45, x=325, y=527)
+  button_signup.place(width=184, height=41, x=330, y=528)
 
   button_forget = Button(screen, highlightthickness=0, bd=0, background='white', image=forgetButton, command=lambda:
   [
     screen.destroy(),
     editPassword("Microsfot - Redefinir senha")
   ])
-  button_forget.place(width=146, height=17, x=401, y=496)
+  if language == 0:
+    x = 401
+  else:
+    x = 373
+  button_forget.place(width=174, height=17, x=x, y=496)
 
 
   screen.mainloop()
@@ -157,7 +173,7 @@ def signupScreen(title):
           senhaForte = True
       if senhaForte == False:
         raise ErrorSenhaSemSimbolo
-        
+
     except ErrorEmailSemArroba:
       messagebox.showerror("ERRO", "Insira um email válido.")
       input_email.delete(0, END)
@@ -254,10 +270,10 @@ def signupScreen(title):
       signinScreen('Microsfot - Login')
 
   screen = createScreens(title)
-  hidePassword = StringVar()
-  background = PhotoImage(file='assets/backgrounds/signupScreen.png')
-  finalizeButton = PhotoImage(file='assets/components/finalizeButton.png')
-  backButton = PhotoImage(file='assets/components/BackButton.png')
+
+  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/signupScreen.png')
+  finalizeButton = PhotoImage(file='assets/components/PortugueseComponents/finalizeButton.png')
+  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -286,10 +302,11 @@ def signupScreen(title):
 def homeScreen(title):
   screen = createScreens(title)
 
-  background = PhotoImage(file='assets/backgrounds/homeScreen.png')
-  editButton = PhotoImage(file='assets/components/editButton.png')
-  signoutButton = PhotoImage(file='assets/components/signOutButton.png')
-  informationButton = PhotoImage(file="assets/components/informationButton.png")
+  background = selectLanguage("background", "backgrounds", "homeScreen.png")
+  editButton = PhotoImage(file='assets/components/PortugueseComponents/editButton.png')
+  signoutButton = selectLanguage("signoutButton", "components", "SignOutButton.png")
+  informationButton = selectLanguage("informationButton", "components", "InformationButton.png")
+  configButton = PhotoImage(file="assets/components/PortugueseComponents/ConfigButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -313,6 +330,14 @@ def homeScreen(title):
   )
   button_information.place(width=234, height=41, x=81, y=724)
 
+
+  button_config = Button(screen, highlightthickness=0, bd=0, background='#6092E3', image=configButton, command=lambda: [
+    screen.destroy(),
+    configScreen('Microsfot - Configurações')
+    ]
+  )
+  button_config.place(width=64, height=64, x=1138, y=24)
+
   connection = db_connection_start()
 
   idUsuarioAtual = (usuarioAtual.AcessUserInformation())[0]
@@ -322,7 +347,7 @@ def homeScreen(title):
   labels_texts = []
   for event in events:
     labels_texts.append(event[0])
-  
+
   y = [233, 233, 233, 233, 233, 233, 233]
   for index in range(12):
     sunday_label = Label(screen, text=labels_texts[index], background='white')
@@ -422,8 +447,8 @@ def editScreen(title):
     db_connection_close(connection)
   screen = createScreens(title)
 
-  background = PhotoImage(file='assets/backgrounds/editScreen.png')
-  confirmButton = PhotoImage(file='assets/components/confirmButton.png')
+  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/editScreen.png')
+  confirmButton = PhotoImage(file='assets/components/PortugueseComponents/confirmButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -554,9 +579,9 @@ def editPassword(title):
     db_connection_close(connection)
 
   screen = createScreens(title)
-  background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
-  restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
-  backButton = PhotoImage(file='assets/components/BackButton.png')
+  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/ScreenEditPassword.png')
+  restoreButton = PhotoImage(file='assets/components/PortugueseComponents/ButtonRestore.png')
+  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -630,9 +655,9 @@ def editPasswordInformation(title):
     db_connection_close(connection)
 
   screen = createScreens(title)
-  background = PhotoImage(file='assets/backgrounds/ScreenEditPassword.png')
-  restoreButton = PhotoImage(file='assets/components/ButtonRestore.png')
-  backButton = PhotoImage(file='assets/components/BackButton.png')
+  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/ScreenEditPassword.png')
+  restoreButton = PhotoImage(file='assets/components/PortugueseComponents/ButtonRestore.png')
+  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -668,9 +693,9 @@ def ScreenInsertCode(title):
   screen = createScreens(title)
 
 
-  background = PhotoImage(file='assets/backgrounds/ScreenInsertCode.png')
-  resetButton = PhotoImage(file='assets/components/ButtonReset.png')
-  backButton = PhotoImage(file='assets/components/BackButton.png')
+  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/ScreenInsertCode.png')
+  resetButton = PhotoImage(file='assets/components/PortugueseComponents/ButtonReset.png')
+  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -741,8 +766,8 @@ def ScreenNewPassword(title):
 
   screen = createScreens(title)
 
-  background = PhotoImage(file='assets/backgrounds/ScreenNewPassword.png')
-  concludeButton = PhotoImage(file='assets/components/ButtonConclude.png')
+  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/ScreenNewPassword.png')
+  concludeButton = PhotoImage(file='assets/components/PortugueseComponents/ButtonConclude.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -768,9 +793,9 @@ def userInformationScreen(title):
   information = usuarioAtual.AcessUserInformation()
 
 
-  background = PhotoImage(file='assets/backgrounds/PersonalInformationScreen.png')
-  backButton = PhotoImage(file='assets/components/BackButton.png')
-  resetButton = PhotoImage(file='assets/components/RedefinirButton.png')
+  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/PersonalInformationScreen.png')
+  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
+  resetButton = PhotoImage(file='assets/components/PortugueseComponents/RedefinirButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -804,5 +829,56 @@ def userInformationScreen(title):
 
   screen.mainloop()
 
+def configScreen(title):
+  def item_selected(event):
+    global language
+    selected_indices = listBox.curselection()
 
-signinScreen('Microsfot - Tela Inicial')
+    selected_langs = ",".join([listBox.get(i) for i in selected_indices])
+
+    if selected_langs == "English":
+      screen.destroy()
+      language = 1
+      configScreen('Microsfot - Tela de configurações')
+    else:
+      screen.destroy()
+      language = 0
+      configScreen('Microsfot - Tela de configurações')
+  def resetOptions():
+    global language
+    language = 0
+    screen.destroy(),
+    configScreen('Microsfot - Configurações')
+  screen = createScreens(title)
+  backupLanguage = language
+
+  # Images for the window
+  background = selectLanguage("background", "backgrounds", "configScreen.png")
+  ButtonConclude = selectLanguage("ButtonConclude", "components", "ConcludeButtonConfig.png")
+  ButtonCancel = selectLanguage("ButtonCancel", "components", "ButtonCancelConfig.png")
+
+  label = Label(screen, image=background)
+  label.pack()
+
+  listOptions = ["Português", "English"]
+  var = tkinter.Variable(value=listOptions)
+
+  listBox = Listbox(screen, listvariable=var, height=2, selectmode=tkinter.SINGLE)
+  listBox.pack(expand=True, fill=tkinter.BOTH, side=tkinter.LEFT)
+  listBox.place(x=165, y=425)
+
+  listBox.bind('<<ListboxSelect>>', item_selected)
+
+  button_conclude = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=ButtonConclude, command=lambda:
+    [screen.destroy(),
+     homeScreen('Microsfot - Suas tarefas')])
+  button_conclude.place(width=188, height=35, x=171, y=531)
+
+  button_cancel = Button(screen, highlightthickness=0, bd=0, background='white', image=ButtonCancel, command=resetOptions)
+  button_cancel.place(width=155, height=39, x=383, y=528)
+
+  screen.mainloop()
+
+
+
+signinScreen('Microsfot - Tela inicial')
