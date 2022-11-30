@@ -93,6 +93,7 @@ def signinScreen(title):
   signinButton = selectLanguage("signinButton", "components", "signinButton.png")
   signupButton = selectLanguage("signupButton", "components", "signupButton.png")
   forgetButton = selectLanguage("forgetButton", "components", "ButtonForgetPassword.png")
+  configButton = PhotoImage(file="assets/components/PortugueseComponents/ConfigButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -116,14 +117,21 @@ def signinScreen(title):
   button_forget = Button(screen, highlightthickness=0, bd=0, background='white', image=forgetButton, command=lambda:
   [
     screen.destroy(),
-    editPassword("Microsfot - Redefinir senha")
+    editPassword("Microsfot - Redefinir senha", "login")
   ])
   if language == 0:
     x = 401
   else:
     x = 373
-  button_forget.place(width=174, height=17, x=x, y=496)
+  button_forget.place(width=174, height=19, x=x, y=496)
 
+
+  button_config = Button(screen, highlightthickness=0, bd=0, background='#6092E3', image=configButton, command=lambda: [
+    screen.destroy(),
+    configScreen('Microsfot - Configurações', "login")
+    ]
+  )
+  button_config.place(width=64, height=64, x=1138, y=24)
 
   screen.mainloop()
 
@@ -271,9 +279,10 @@ def signupScreen(title):
 
   screen = createScreens(title)
 
-  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/signupScreen.png')
-  finalizeButton = PhotoImage(file='assets/components/PortugueseComponents/finalizeButton.png')
-  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
+  background = selectLanguage("background", "backgrounds", "signupScreen.png")
+  finalizeButton = selectLanguage("finalizeButton", "components", "finalizeButton.png")
+  backButton = selectLanguage("backButton", "components", "BackButton.png")
+  configButton = PhotoImage(file="assets/components/PortugueseComponents/ConfigButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -287,15 +296,22 @@ def signupScreen(title):
   input_password = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_password.place(width=370, height=35, x=172, y=458)
 
-  button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=finalizeButton, command=verificationEmail)
-  button_signin.place(width=225, height=40, x=172, y=538)
+  button_signup = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=finalizeButton, command=verificationEmail)
+  button_signup.place(width=220, height=41, x=172, y=538)
 
   button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda:
   [
       screen.destroy(),
       signinScreen('Microsfot - Tela Inicial')
   ])
-  button_back.place(width=131, height=45, x=415, y=537)
+  button_back.place(width=121, height=41, x=420, y=538)
+
+  button_config = Button(screen, highlightthickness=0, bd=0, background='#6092E3', image=configButton, command=lambda: [
+    screen.destroy(),
+    configScreen('Microsfot - Configurações', "cadastro")
+    ]
+  )
+  button_config.place(width=64, height=64, x=1138, y=24)
 
   screen.mainloop()
 
@@ -333,7 +349,7 @@ def homeScreen(title):
 
   button_config = Button(screen, highlightthickness=0, bd=0, background='#6092E3', image=configButton, command=lambda: [
     screen.destroy(),
-    configScreen('Microsfot - Configurações')
+    configScreen('Microsfot - Configurações', "home")
     ]
   )
   button_config.place(width=64, height=64, x=1138, y=24)
@@ -447,7 +463,7 @@ def editScreen(title):
     db_connection_close(connection)
   screen = createScreens(title)
 
-  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/editScreen.png')
+  background = selectLanguage("background", "backgrounds", "editScreen.png")
   confirmButton = PhotoImage(file='assets/components/PortugueseComponents/confirmButton.png')
 
   label = Label(screen, image=background)
@@ -527,7 +543,7 @@ def editScreen(title):
     y[6] += 33
   screen.mainloop()
 
-def editPassword(title):
+def editPassword(title, redirect):
   def enviarEmail(emailPessoa):
     global code
     code = random.randint(100000, 999999)
@@ -579,9 +595,10 @@ def editPassword(title):
     db_connection_close(connection)
 
   screen = createScreens(title)
-  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/ScreenEditPassword.png')
-  restoreButton = PhotoImage(file='assets/components/PortugueseComponents/ButtonRestore.png')
-  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
+
+  background = selectLanguage("background", "backgrounds", "ScreenEditPassword.png")
+  restoreButton = selectLanguage("restoreButton", "components", "ButtonRestore.png")
+  backButton = selectLanguage("backButton", "components", "BackButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -590,90 +607,20 @@ def editPassword(title):
   input_email.place(width=370, height=32, x=172, y=353)
 
   button_restore = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=restoreButton, command=verificarEmail)
-  button_restore.place(width=223, height=45, x=170, y=552)
+  button_restore.place(width=213, height=43, x=175, y=553)
 
-
-  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda: [
-    screen.destroy(),
-    signinScreen('Microsfot - Tela Inicial')
-  ])
-  button_back.place(width=130, height=45, x=414, y=552)
-
-
-
-  screen.mainloop()
-
-def editPasswordInformation(title):
-  def enviarEmail(emailPessoa):
-    global code
-    code = random.randint(100000, 999999)
-    corpoEmail = """
-             <div style="border: 2px solid #d4deee; width: 600px; margin: 0 auto; border-radius: 10px;">
-                <div style="padding: 15px;">
-                  <p style="font-family: Arial; font-size: 1rem;" align="center">Olá! Aqui é o suporte do Planner Microsfot. Você solicitou uma <span style="color: #2563EB">recuperação de senha na sua conta no planner digital</span>. Seu código de verificação é:</p>
-                  <p style="font-family: Arial; font-size: 1rem; font-weight: bold;" align="center"> > > > {} < < < </p>
-        
-                  <p style="font-family: Arial; font-size: 1rem;" align="center">Se você não solicitou essa redefinição, <span style="color: #1E3A8A;">ignore este e-mail</span>. Sua senha permanecerá a mesma.</p>
-
-                  <p style="font-family: Arial; font-size: 1rem;" align="center">Email automático. Por favor não responda.</p>
-                </div>
-            </div>
-        """.format(code)
-
-    msg = email.message.Message()
-    msg['Subject'] = "Código para recuperação de senha"
-    msg['From'] = "plannersuportecliente123@gmail.com"
-    msg['To'] = "{}".format(emailPessoa)
-    password = "owyqxpganiwvnjxv"
-    msg.add_header('Content-Type', 'text/html')
-    msg.set_payload(corpoEmail)
-    s = smtplib.SMTP('smtp.gmail.com: 587')
-    s.starttls()
-
-    s.login(msg['From'], password)
-    s.sendmail(msg['From'], msg['To'], msg.as_string().encode('utf-8'))
-  def verificarEmail():
-    connection = db_connection_start()
-    SQL_search_user = "SELECT * FROM usuarios"
-    users = db_search_user(connection, SQL_search_user)
-    validado = False
-    try:
-      for user in users:
-        if user[1] == input_email.get():
-          validado = True
-      if validado == False:
-        raise ErrorEmailInexistente
-    except ErrorEmailInexistente:
-      messagebox.showerror("ERRO",
-                           """Ops... ocorreu um erro! O email inserido não existe na plataforma. Verifique se a email foi escrito corretamente :)""")
-    else:
-      enviarEmail(input_email.get())
-      global emailParaRedefinicao
-      emailParaRedefinicao = str(input_email.get())
-      screen.destroy()
-      ScreenInsertCode("Microsfot - Insira o código")
-    db_connection_close(connection)
-
-  screen = createScreens(title)
-  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/ScreenEditPassword.png')
-  restoreButton = PhotoImage(file='assets/components/PortugueseComponents/ButtonRestore.png')
-  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
-
-  label = Label(screen, image=background)
-  label.pack()
-
-  input_email = Entry(screen, highlightthickness=0, bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
-  input_email.place(width=370, height=32, x=172, y=353)
-
-  button_restore = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=restoreButton, command=verificarEmail)
-  button_restore.place(width=223, height=45, x=170, y=552)
-
-
-  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda: [
-    screen.destroy(),
-    userInformationScreen('Microsfot - Suas Informações')
-  ])
-  button_back.place(width=130, height=45, x=414, y=552)
+  if redirect == "login":
+    button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda: [
+      screen.destroy(),
+      signinScreen('Microsfot - Tela Inicial')
+    ])
+    button_back.place(width=120, height=43, x=419, y=553)
+  elif redirect == "informações":
+    button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda: [
+      screen.destroy(),
+      userInformationScreen('Microsfot - Suas Informações')
+    ])
+    button_back.place(width=120, height=43, x=419, y=553)
 
 
 
@@ -693,9 +640,9 @@ def ScreenInsertCode(title):
   screen = createScreens(title)
 
 
-  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/ScreenInsertCode.png')
-  resetButton = PhotoImage(file='assets/components/PortugueseComponents/ButtonReset.png')
-  backButton = PhotoImage(file='assets/components/PortugueseComponents/BackButton.png')
+  background = selectLanguage("background", "backgrounds", "ScreenInsertCode.png")
+  resetButton = selectLanguage("resetButton", "components", "ButtonReset.png")
+  backButton = selectLanguage("backButton", "components", "BackButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -705,14 +652,14 @@ def ScreenInsertCode(title):
 
 
   button_reset = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=resetButton, command=verificaCodigo)
-  button_reset.place(width=220, height=45, x=170, y=522)
+  button_reset.place(width=210, height=45, x=175, y=522)
 
   button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda:
   [
     screen.destroy(),
     signinScreen('Microsfot - Tela Inicial')
   ])
-  button_back.place(width=131, height=45, x=413, y=522)
+  button_back.place(width=120, height=43, x=418, y=523)
 
   screen.mainloop()
 
@@ -766,8 +713,9 @@ def ScreenNewPassword(title):
 
   screen = createScreens(title)
 
-  background = PhotoImage(file='assets/backgrounds/PortugueseBackgrounds/ScreenNewPassword.png')
-  concludeButton = PhotoImage(file='assets/components/PortugueseComponents/ButtonConclude.png')
+  background = selectLanguage("background", "backgrounds", "ScreenNewPassword.png")
+  concludeButton = selectLanguage("concludeButton", "components", "ButtonConclude.png")
+  backButton = selectLanguage("backButton", "components", "BackButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -782,8 +730,14 @@ def ScreenNewPassword(title):
 
 
   button_conclude = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=concludeButton, command=verificaSenhas)
-  button_conclude.place(width=220, height=45, x=170, y=522)
+  button_conclude.place(width=210, height=43, x=175, y=523)
 
+  button_back = Button(screen, highlightthickness=0, bd=0, background='white', image=backButton, command=lambda:
+  [
+    screen.destroy(),
+    signinScreen('Microsfot - Tela Inicial')
+  ])
+  button_back.place(width=120, height=43, x=420, y=523)
 
   label.mainloop()
 
@@ -805,7 +759,7 @@ def userInformationScreen(title):
       screen.destroy(),
       homeScreen('Microsfot - Suas atividades')
   ])
-  button_back.place(width=131, height=45, x=480, y=601)
+  button_back.place(width=121, height=43, x=485, y=602)
 
 
   UserName = Label(screen, text="BeautifulUser", font=('Inter', 12), background="#FFFFFF")
@@ -821,7 +775,7 @@ def userInformationScreen(title):
 
   reset_Button = Button(screen, highlightthickness=0, bd=0, background='#FFFFFF', image=resetButton, command=lambda: [
     screen.destroy(),
-    editPasswordInformation("Microsfot - Redefinir senha")
+    editPassword("Microsfot - Redefinir senha", "informações")
   ])
   reset_Button.place(x=170, y=531)
 
@@ -829,7 +783,7 @@ def userInformationScreen(title):
 
   screen.mainloop()
 
-def configScreen(title):
+def configScreen(title, redirect):
   def item_selected(event):
     global language
     selected_indices = listBox.curselection()
@@ -837,18 +791,18 @@ def configScreen(title):
     selected_langs = ",".join([listBox.get(i) for i in selected_indices])
 
     if selected_langs == "English":
-      screen.destroy()
+      messagebox.showinfo("SUCESS", "Language changed successfully. Click on the blue button to see the changes")
       language = 1
-      configScreen('Microsfot - Tela de configurações')
     else:
-      screen.destroy()
+      messagebox.showinfo("SUCESSO", "Idioma alterado com sucesso. Clique no botão azul para ver as mudanças")
       language = 0
-      configScreen('Microsfot - Tela de configurações')
   def resetOptions():
     global language
-    language = 0
-    screen.destroy(),
-    configScreen('Microsfot - Configurações')
+    if language == 1:
+      messagebox.showinfo("SUCESS", "System settings reset. Click on the blue button to see the changes")
+    elif language == 0:
+      messagebox.showinfo("SUCESSO", "Configurações do sistema redefinidas. Clique no botão azul para ver as mudanças")
+      language = 0
   screen = createScreens(title)
   backupLanguage = language
 
@@ -869,10 +823,22 @@ def configScreen(title):
 
   listBox.bind('<<ListboxSelect>>', item_selected)
 
-  button_conclude = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=ButtonConclude, command=lambda:
-    [screen.destroy(),
-     homeScreen('Microsfot - Suas tarefas')])
-  button_conclude.place(width=188, height=35, x=171, y=531)
+  if redirect == "home":
+    button_conclude = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=ButtonConclude, command=lambda:
+      [screen.destroy(),
+       homeScreen('Microsfot - Suas tarefas')])
+    button_conclude.place(width=188, height=35, x=171, y=531)
+  elif redirect == "login":
+    button_conclude = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=ButtonConclude, command=lambda:
+      [screen.destroy(),
+       signinScreen('Microsfot - Tela inicial')])
+    button_conclude.place(width=188, height=35, x=171, y=531)
+  elif redirect == "cadastro":
+    button_conclude = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=ButtonConclude, command=lambda:
+      [screen.destroy(),
+       signupScreen('Microsfot - Cadastro')])
+    button_conclude.place(width=188, height=35, x=171, y=531)
+
 
   button_cancel = Button(screen, highlightthickness=0, bd=0, background='white', image=ButtonCancel, command=resetOptions)
   button_cancel.place(width=155, height=39, x=383, y=528)
