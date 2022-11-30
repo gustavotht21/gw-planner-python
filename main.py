@@ -104,15 +104,15 @@ def signinScreen(title):
   input_password = Entry(screen, highlightthickness=0, textvariable=hidePassword, show="*", bd=0, font=('Inter', 8), justify=LEFT, foreground='#605672')
   input_password.place(width=370, height=35, x=172, y=450)
 
-  button_signin = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=signinButton, command=login)
-  button_signin.place(width=129, height=43, x=175, y=527)
+  button_signin = Button(screen, highlightthickness=0, bd=0, background='white', image=signinButton, command=login)
+  button_signin.place(width=230, height=45, x=170, y=527)
 
   button_signup = Button(screen, highlightthickness=0, bd=0, background='white', image=signupButton, command=lambda:
   [
       screen.destroy(),
       signupScreen('Microsfot - Cadastro')
   ])
-  button_signup.place(width=184, height=41, x=330, y=528)
+  button_signup.place(width=132, height=45, x=415, y=526)
 
   button_forget = Button(screen, highlightthickness=0, bd=0, background='white', image=forgetButton, command=lambda:
   [
