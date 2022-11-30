@@ -26,9 +26,9 @@ from exceptions import *
 from classes import Usuario
 from tkinter import messagebox
 
-global language
+global language, portuguese
 language = 0
-
+portuguese = True
 
 def createScreens(title):
   screen = Tk()
@@ -93,7 +93,7 @@ def signinScreen(title):
   signinButton = selectLanguage("signinButton", "components", "signinButton.png")
   signupButton = selectLanguage("signupButton", "components", "signupButton.png")
   forgetButton = selectLanguage("forgetButton", "components", "ButtonForgetPassword.png")
-  configButton = PhotoImage(file="assets/components/PortugueseComponents/ConfigButton.png")
+  configButton = PhotoImage(file="assets/components/ConfigButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -282,7 +282,7 @@ def signupScreen(title):
   background = selectLanguage("background", "backgrounds", "signupScreen.png")
   finalizeButton = selectLanguage("finalizeButton", "components", "finalizeButton.png")
   backButton = selectLanguage("backButton", "components", "BackButton.png")
-  configButton = PhotoImage(file="assets/components/PortugueseComponents/ConfigButton.png")
+  configButton = PhotoImage(file="assets/components/ConfigButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -319,10 +319,10 @@ def homeScreen(title):
   screen = createScreens(title)
 
   background = selectLanguage("background", "backgrounds", "homeScreen.png")
-  editButton = PhotoImage(file='assets/components/PortugueseComponents/editButton.png')
+  editButton = PhotoImage(file='assets/components/editButton.png')
   signoutButton = selectLanguage("signoutButton", "components", "SignOutButton.png")
   informationButton = selectLanguage("informationButton", "components", "InformationButton.png")
-  configButton = PhotoImage(file="assets/components/PortugueseComponents/ConfigButton.png")
+  configButton = PhotoImage(file="assets/components/ConfigButton.png")
 
   label = Label(screen, image=background)
   label.pack()
@@ -464,7 +464,7 @@ def editScreen(title):
   screen = createScreens(title)
 
   background = selectLanguage("background", "backgrounds", "editScreen.png")
-  confirmButton = PhotoImage(file='assets/components/PortugueseComponents/confirmButton.png')
+  confirmButton = PhotoImage(file='assets/components/confirmButton.png')
 
   label = Label(screen, image=background)
   label.pack()
@@ -784,18 +784,19 @@ def userInformationScreen(title):
   screen.mainloop()
 
 def configScreen(title, redirect):
-  def item_selected(event):
+  print(portuguese)
+  def item_selected(selected):
     global language
-    selected_indices = listBox.curselection()
+    global portuguese
 
-    selected_langs = ",".join([listBox.get(i) for i in selected_indices])
-
-    if selected_langs == "English":
+    if selected == "portuguese_to_english":
       messagebox.showinfo("SUCESS", "Language changed successfully. Click on the blue button to see the changes")
       language = 1
+      portuguese = False
     else:
       messagebox.showinfo("SUCESSO", "Idioma alterado com sucesso. Clique no botão azul para ver as mudanças")
       language = 0
+      portuguese = True
   def resetOptions():
     global language
     if language == 1:
@@ -806,22 +807,31 @@ def configScreen(title, redirect):
   screen = createScreens(title)
   backupLanguage = language
 
+
   # Images for the window
   background = selectLanguage("background", "backgrounds", "configScreen.png")
   ButtonConclude = selectLanguage("ButtonConclude", "components", "ConcludeButtonConfig.png")
   ButtonCancel = selectLanguage("ButtonCancel", "components", "ButtonCancelConfig.png")
 
+  if portuguese == 1:
+    portugueseButton = PhotoImage(file="assets/components/TruePortugueseConfigButton.png")
+    englishButton = PhotoImage(file="assets/components/FalseEnglishConfigButton.png")
+  else:
+    portugueseButton = PhotoImage(file="assets/components/FalsePortugueseConfigButton.png")
+    englishButton = PhotoImage(file="assets/components/TrueEnglishConfigButton.png")
+
   label = Label(screen, image=background)
   label.pack()
 
-  listOptions = ["Português", "English"]
-  var = tkinter.Variable(value=listOptions)
+  PortugueseButton = Button(screen, highlightthickness=0, bd=0, background='white', image=portugueseButton, command=lambda: [
+    item_selected("english_to_portuguese")
+  ])
+  PortugueseButton.place(width=124, height=25, x=163, y=425)
 
-  listBox = Listbox(screen, listvariable=var, height=2, selectmode=tkinter.SINGLE)
-  listBox.pack(expand=True, fill=tkinter.BOTH, side=tkinter.LEFT)
-  listBox.place(x=165, y=425)
-
-  listBox.bind('<<ListboxSelect>>', item_selected)
+  EnglishButton = Button(screen, highlightthickness=0, bd=0, background='white', image=englishButton, command=lambda: [
+    item_selected("portuguese_to_english")
+  ])
+  EnglishButton.place(width=124, height=25, x=163, y=454)
 
   if redirect == "home":
     button_conclude = Button(screen, highlightthickness=0, bd=0, background='#4284F2', image=ButtonConclude, command=lambda:
@@ -842,7 +852,6 @@ def configScreen(title, redirect):
 
   button_cancel = Button(screen, highlightthickness=0, bd=0, background='white', image=ButtonCancel, command=resetOptions)
   button_cancel.place(width=155, height=39, x=383, y=528)
-
   screen.mainloop()
 
 
